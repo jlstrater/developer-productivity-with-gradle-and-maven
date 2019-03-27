@@ -1,4 +1,4 @@
-= Schnelle und zuverlässige Builds mit Maven und Gradle
+= Fast and reliable builds with Gradle and Maven
 :title-slide-background-image: title.jpeg
 :title-slide-transition: zoom
 :title-slide-transition-speed: fast
@@ -10,39 +10,38 @@ ifndef::sourcedir[:sourcedir: ../java]
 :menu:
 :status:
 
-https://twitter.com/wolfs42[Stefan Wolf (@wolfs42)], Gradle
+https://twitter.com/marcphilipp[Marc Philipp (@marcphilipp)], Gradle Inc.
 
-== Wer bin ich
+== Who am I?
 
-[source,groovy]
+[source,kotlin]
 ----
 speaker {
-    name 'Stefan Wolf'
-    company 'Gradle Inc'
-    title 'Senior Software Engineer'
-    past [
-        'TNG Technology Consulting',
-        'Jenkins Committer'
+    name = "Marc Philipp"
+    company = "Gradle Inc"
+    title = "Senior Software Engineer"
+    openSourceRoles = [
+        "JUnit team lead"
     ],
-    twitter '@wolfs42'
-    github 'wolfs'
+    twitter = '@marcphilipp'
+    github = "marcphilipp"
+    web = uri("https://www.marcphilipp.de")
 }
 ----
 
 == Gradle Inc.
 
 * Build Happiness
-* Produkte
+* Products
 ** Gradle Build Tool
 ** Gradle Enterprise
 
-== Build und Entwicklerproduktivität
+== How do builds affect developer productivity?
 
-* 20% Buildfehlschläge
-  - Fixen 5-10% Teamzeit
-* Langsam
-  - Pro Minute 4% Teamzeit
-* Unzuverlässig: 5% Teamzeit
+* _failures:_ about 20% of builds fail due to code defects
+  - 5-10% of a team's capacity is spent on fixing
+* _slow:_ a team's capacity is reduced by 4% for each extra minute of build time
+* _unreliable:_ 5% of a team's capacity goes into debugging build problems
 
 [NOTE.speaker]
 --
@@ -63,42 +62,42 @@ The build touches everything related to software development and provides a uniq
 Every software team on the planet is severely affected by all those issues including a deep lack of insight. This is why we build GE.
 --
 
-== Schnelle Builds
-=== Schnelle Builds
+== Fast builds
 
-* Schneller = weniger machen
-* Ergebnisse wiederverwenden!
-** Inkrementeller Build
-** Build Cache
+=== Fast builds
 
-=== Inkrementeller Build
+* faster = avoid doing needless work
+* reuse results!
+** incremental builds
+** build cache
 
-* Gradle :)
-* Maven :(
+=== Incremental builds
 
-=== Inkrementeller Build
+* Gradle 👍
+* Maven 👎
 
-Gradle kann Ergebnisse +
-des *letzten Mals*  +
-als *dieser Build* +
- auf *diesem Computer* +
-ausgeführt wurde wiederverwenden.
+=== Incremental builds
+
+Gradle can reuse results +
+of the *last time* +
+*this build* ran +
+on *this machine*.
 
 image::task_inputs_outputs.svg[width=380px, height=auto]
 
-=== das geht noch besser
+=== We can do better!
 
-=== Wieso nicht...
+=== Why not...
 
-von *irgendwann*  +
-wenn *irgendein Build* +
- *irgendwo* ausgeführt wurde.
+of *any time*  +
+and *any build* +
+that ran *anywhere*.
 
 image::build_caching.svg[width=380px, height=auto]
 
-=== Noch besser
+=== Even better
 
-* Maven und Gradle
+* Maven and Gradle
 
 [%notitle]
 === Maven vs. Gradle
@@ -122,44 +121,38 @@ BUILD SUCCESSFUL
 
 === Gradle
 
-* Stabil für Java, Groovy, Scala, C++ und Swift Projekte
-* Kompilieren, Testen und Codeanalyse
-* Performantes Backend von Gradle
+* usable for Java, Groovy, Scala, C++ and Swift projects
+* supports compile, test and verification tasks
+* high-performance backend from Gradle
 * Dockerhub: https://hub.docker.com/r/gradle/build-cache-node/[gradle/build-cache-node]
 
 === Maven
 
-* Eigene Extension
-* Release: Anfang März mit Gradle Enterprise 2019.1
-  - compile/test-compile und surefire/failsafe plugins
+* custom extension (part of Gradle Enterprise)
+* initial release: March 2019
+  - compile/test-compile and surefire/failsafe plugins
+* more to come in the next version (Javadoc, JAXB)
 
-[NOTE.speaker]
---
-* Geplant:
-  - Unterstützung für weitere häufig verwendete Mojos
-  - API zum Annotieren von Inputs/Outputs eigener Mojos
-  - SPI um Mojos cacheable zu machen, die nicht von Haus aus unterstützt werden oder deren Source Code nicht geändert werden kann
---
+== Reliable builds
 
-== Zuverlässige Builds
+=== Requirements
 
-=== Anforderungen
+* monitoring of builds to discover regressions/improvements
+** both builds by developers and CI
+** reliability
+** performance
 
-* Daten um Verbesserungen/Verschlechterungen festzustellen
-** Entwickler- und CI-Builds
-** Zuverlässigkeit
-** Geschwindigkeit
+=== What are Build Scans?
 
-=== Was sind Build Scans?
+* persistent record of what happened during a build
+* permanent and shareable URL
+* for developers and build engineers
 
-* Aufzeichnung was in einem Build passiert ist
-* Permanente und teilbare URLs
-* Für Entwickler und Build Master
+=== Build Scans – Demo
 
-=== Build Scans - Demo
-* https://e.grdev.net/s/37h3dlueevh2s[Build Scan]
-* https://e.grdev.net/scans[Scan Liste]
-* https://e.grdev.net/scans?search.tags=local[Entwickler Builds]
+* https://e.grdev.net/s/37h3dlueevh2s[build scan]
+* https://e.grdev.net/scans[scan list]
+* https://e.grdev.net/scans?search.tags=local[local builds]
 
 [NOTE.speaker]
 --
@@ -168,48 +161,48 @@ BUILD SUCCESSFUL
 * Build categorization via Tags
 --
 [%notitle]
-=== Maven Build Scans - Summary
+=== Maven Build Scans – Summary
 image::maven-scan-summary.png[height=80%]
 
 [%notitle]
-=== Maven Build Scans - Timeline
+=== Maven Build Scans – Timeline
 image::maven-scan-timeline.png[height=80%]
 
 [%notitle]
-=== Maven Build Scans - Performance
+=== Maven Build Scans – Performance
 image::maven-scan-performance.png[height=80%]
 
 [%notitle]
-=== Maven Build Scans - Performance Configuration
+=== Maven Build Scans – Performance Configuration
 image::maven-scan-performance-conf.png[height=80%]
 
 [%notitle]
-=== Maven Build Scans - Performance Goals
+=== Maven Build Scans – Performance Goals
 image::maven-scan-performance-goals.png[height=80%]
 
 [%notitle]
-=== Maven Build Scans - Performance Build Cache
+=== Maven Build Scans – Performance Build Cache
 image::maven-scan-performance-build-cache.png[height=80%]
 
 [%notitle]
-=== Maven Build Scans - Projects
+=== Maven Build Scans – Projects
 image::maven-scan-projects.png[height=80%]
 
 [%notitle]
-=== Maven Build Scans - Plugins
+=== Maven Build Scans – Plugins
 image::maven-scan-plugins.png[height=80%]
 
 [%notitle]
-=== Maven Build Scans - Switches Infrastructure
+=== Maven Build Scans – Switches Infrastructure
 image::maven-scan-switches-infrastructure.png[height=80%]
 
-=== Build Scans - Anforderungen
+=== Build Scans
 
-* Maven/Gradle
-* Auf scans.gradle.com öffentlich/gratis
+* support Gradle _and_ Maven
+* public scans are free on link:https://scans.gradle.com[scans.gradle.com]
 ** https://scans.gradle.com/s/nq7w6cjm72mak/
-** Ohne Build Comparison
-* Eigene Gradle Enterprise Instanz
+** without build comparison
+* Gradle Enterprise provides additional features and on-premise hosting
 
 === Gradle
 
@@ -226,7 +219,9 @@ https://scans.gradle.com/s/lbmn7n4dngqgq
 
 === Maven
 
-* Extension in `.mvn`
+* extension registered in `.mvn/extensions.xml`
+
+// TODO update console output
 
 [source,text]
 ----
@@ -244,23 +239,23 @@ $> mvn package
 [INFO]
 ----
 
-=== Performance Dashboard
+=== Performance dashboard
 
-* Beispiel: Performance Regression
-* https://e.grdev.net/scans/performance?list.offset=0&list.size=50&list.sortColumn=startTime&list.sortOrder=desc&search.startTimeMax=1549321199999&search.startTimeMin=1548543600000&search.tags=CI&search.tags=not:RERUN_TESTS&search.tags=master&search.tags=SanityCheck[Letzte Woche]
-* https://e.grdev.net/scans/performance?list.offset=0&list.size=50&list.sortColumn=startTime&list.sortOrder=desc&search.startTimeMax=1550080479731&search.startTimeMin=1549475679731&search.tags=CI&search.tags=not:RERUN_TESTS&search.tags=master&search.tags=SanityCheck[Aktuell]
+* example: performance regression
+* https://e.grdev.net/scans/performance?list.offset=0&list.size=50&list.sortColumn=startTime&list.sortOrder=desc&search.startTimeMax=1549321199999&search.startTimeMin=1548543600000&search.tags=CI&search.tags=not:RERUN_TESTS&search.tags=master&search.tags=SanityCheck[last week]
+* https://e.grdev.net/scans/performance?list.offset=0&list.size=50&list.sortColumn=startTime&list.sortOrder=desc&search.startTimeMax=1550080479731&search.startTimeMin=1549475679731&search.tags=CI&search.tags=not:RERUN_TESTS&search.tags=master&search.tags=SanityCheck[current]
 
-=== Cache Misses
+=== Cache misses
 
-* Eigene Tags für unerwartete Cache Misses
-* Beispiel: Gradle Build
-  - https://e.grdev.net/scans?list.offset=0&list.size=50&list.sortColumn=startTime&list.sortOrder=desc&search.tags=cache_miss[Alle Cache Misses]
-  - https://e.grdev.net/s/asqxkwl6ib46y[Ein Fall]
-  - https://e.grdev.net/c/asqxkwl6ib46y/ea6nucbz4bvf6/task-inputs?toggledFileChanges=WyI3Z2hjdWhyb3pscHdtLWZpbGUtaW5wdXQtMCIsIjdnaGN1aHJvemxwd20tMC0wIiwiZmt2dXk3cXlqZ3Rtby1maWxlLWlucHV0LTAiLCJma3Z1eTdxeWpndG1vLTAtMCIsInhqeGRhcnl5emJzeXEtZmlsZS1pbnB1dC0wIiwieGp4ZGFyeXl6YnN5cS0wLTAiXQ#change-xjxdaryyzbsyq-0-0-0[Comparison]
+* custom tags for unexpected cache misses
+* example: Gradle build
+  - https://e.grdev.net/scans?list.offset=0&list.size=50&list.sortColumn=startTime&list.sortOrder=desc&search.tags=cache_miss[all cache misses]
+  - https://e.grdev.net/s/asqxkwl6ib46y[one specific case]
+  - https://e.grdev.net/c/asqxkwl6ib46y/ea6nucbz4bvf6/task-inputs?toggledFileChanges=WyI3Z2hjdWhyb3pscHdtLWZpbGUtaW5wdXQtMCIsIjdnaGN1aHJvemxwd20tMC0wIiwiZmt2dXk3cXlqZ3Rtby1maWxlLWlucHV0LTAiLCJma3Z1eTdxeWpndG1vLTAtMCIsInhqeGRhcnl5emJzeXEtZmlsZS1pbnB1dC0wIiwieGp4ZGFyeXl6YnN5cS0wLTAiXQ#change-xjxdaryyzbsyq-0-0-0[comparison]
 
-=== Eigene Analysen
+=== Custom analyses
 
-* Export API benutzen!
+* use Export API
 * https://github.com/gradle/build-analysis-demo
 
 image::build-analysis-data-pipeline.png[width=80%, height=auto]
@@ -286,9 +281,9 @@ image::test-analytics.png[height=auto]
 Über Flaky Test reden.
 --
 
-== Vielen Dank!
+== Thank you!
 
-* Slides: https://wolfs.github.io/talk-developer-productivity-day-2019
+//* Slides: https://wolfs.github.io/talk-developer-productivity-day-2019
 * https://gradle.org/training/[]
   - Build Cache Deep Dive
   - Maven + Gradle Enterprise
