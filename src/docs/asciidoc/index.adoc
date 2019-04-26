@@ -1,4 +1,4 @@
-= Fast and reliable builds with Gradle and Maven
+= Fast and reliable builds with +++<br>+++Gradle and Maven
 :title-slide-background-image: title.jpeg
 :title-slide-transition: zoom
 :title-slide-transition-speed: fast
@@ -10,38 +10,40 @@ ifndef::sourcedir[:sourcedir: ../java]
 :menu:
 :status:
 
-https://twitter.com/marcphilipp[Marc Philipp (@marcphilipp)], Gradle Inc.
+https://twitter.com/marcphilipp[Marc Philipp (@marcphilipp), Gradle Inc.]
 
-== Who am I?
+== About me
 
 [source,kotlin]
 ----
 speaker {
     name = "Marc Philipp"
-    company = "Gradle Inc"
+    home = "Karlsruhe, Germany"
+    company = "Gradle Inc."
     title = "Senior Software Engineer"
     openSourceRoles = [
         "JUnit team lead"
-    ],
-    twitter = '@marcphilipp'
+    ]
+    twitter = "@marcphilipp"
     github = "marcphilipp"
     web = uri("https://www.marcphilipp.de")
 }
 ----
 
-== Gradle Inc.
+=== Gradle Inc.
 
 * Build Happiness
 * Products
 ** Gradle Build Tool
 ** Gradle Enterprise
 
-== How do builds affect developer productivity?
+=== How do builds affect developer productivity?
 
+[%step]
 * _failures:_ about 20% of builds fail due to code defects
   - 5-10% of a team's capacity is spent on fixing
-* _slow:_ a team's capacity is reduced by 4% for each extra minute of build time
-* _unreliable:_ 5% of a team's capacity goes into debugging build problems
+* _slowness:_ a team's capacity is reduced by 4% for each extra minute of build time
+* _unreliability:_ 5% of a team's capacity goes into debugging build problems
 
 [NOTE.speaker]
 --
@@ -83,28 +85,24 @@ of the *last time* +
 *this build* ran +
 on *this machine*.
 
-image::task_inputs_outputs.svg[width=380px, height=auto]
-
 === We can do better!
 
 === Why not...
 
-of *any time*  +
+of *any time* +
 and *any build* +
 that ran *anywhere*.
 
-image::build_caching.svg[width=380px, height=auto]
-
 === Even better
 
-* Maven and Gradle
+For Maven and Gradle builds!
 
 [%notitle]
 === Maven vs. Gradle
 
 image::maven-vs-gradle.png[height=auto]
 
-=== Gradle
+=== Build Cache for Gradle
 
 [%step]
 [source,text]
@@ -119,19 +117,92 @@ $> gradle --build-cache assemble
 BUILD SUCCESSFUL
 ----
 
-=== Gradle
+=== Build Cache for Gradle
 
-* usable for Java, Groovy, Scala, C++ and Swift projects
+* out-of-the-box for Java, Groovy, Scala, C++ and Swift projects
 * supports compile, test and verification tasks
-* high-performance backend from Gradle
-* Dockerhub: https://hub.docker.com/r/gradle/build-cache-node/[gradle/build-cache-node]
+* high-performance remote backend from Gradle
+* Docker Hub: https://hub.docker.com/r/gradle/build-cache-node/[gradle/build-cache-node]
 
-=== Maven
+=== Build Cache for Maven
 
 * custom extension (part of Gradle Enterprise)
 * initial release: March 2019
-  - compile/test-compile and surefire/failsafe plugins
-* more to come in the next version (Javadoc, JAXB)
+* supported plugins: Java Compiler, Surefire/Failsafe, Javadoc, JAXB, Checkstyle
+
+=== Build Cache – Demo
+
+=== How does it work?
+
+- Calculate _cacheKey_ of a task/goal from its inputs:
+  _cacheKey(javaCompile)_ = _hash(sourceFiles, ...)_
+- Store its outputs under _cacheEntry_:
+  _cacheEntry(javaCompile)_ = _fileTree(classFiles)_
+
+[.stretch.plain]
+image::task_inputs_outputs.svg[]
+
+=== Local and remote cache
+
+[%notitle,transition=none]
+=== Local and remote cache
+
+[.stretch.plain]
+image::caching-typical-scenario-01.svg[]
+
+[%notitle,transition=none]
+=== Local and remote cache
+
+[.stretch.plain]
+image::caching-typical-scenario-02.svg[]
+
+[%notitle,transition=none]
+=== Local and remote cache
+
+[.stretch.plain]
+image::caching-typical-scenario-03.svg[]
+
+[%notitle,transition=none]
+=== Local and remote cache
+
+[.stretch.plain]
+image::caching-typical-scenario-04.svg[]
+
+[%notitle,transition=none]
+=== Local and remote cache
+
+[.stretch.plain]
+image::caching-typical-scenario-05.svg[]
+
+[%notitle,transition=none]
+=== Local and remote cache
+
+[.stretch.plain]
+image::caching-typical-scenario-06.svg[]
+
+[%notitle,transition=none]
+=== Local and remote cache
+
+[.stretch.plain]
+image::caching-typical-scenario-07.svg[]
+
+[%notitle,transition=none]
+=== Local and remote cache
+
+[.stretch.plain]
+image::caching-typical-scenario-08.svg[]
+
+[%notitle,transition=none]
+=== Local and remote cache
+
+[.stretch.plain]
+image::caching-typical-scenario-09.svg[]
+
+[%notitle,transition=none]
+=== Local and remote cache
+
+[.stretch.plain]
+image::caching-typical-scenario-10.svg[]
 
 == Reliable builds
 
@@ -148,62 +219,6 @@ BUILD SUCCESSFUL
 * permanent and shareable URL
 * for developers and build engineers
 
-=== Build Scans – Demo
-
-* https://e.grdev.net/s/37h3dlueevh2s[build scan]
-* https://e.grdev.net/scans[scan list]
-* https://e.grdev.net/scans?search.tags=local[local builds]
-
-[NOTE.speaker]
---
-* Navigate to summary, open performance tab, open timeline tab, open plugins view
-* Show scan list
-* Build categorization via Tags
---
-[%notitle]
-=== Maven Build Scans – Summary
-image::maven-scan-summary.png[height=80%]
-
-[%notitle]
-=== Maven Build Scans – Timeline
-image::maven-scan-timeline.png[height=80%]
-
-[%notitle]
-=== Maven Build Scans – Performance
-image::maven-scan-performance.png[height=80%]
-
-[%notitle]
-=== Maven Build Scans – Performance Configuration
-image::maven-scan-performance-conf.png[height=80%]
-
-[%notitle]
-=== Maven Build Scans – Performance Goals
-image::maven-scan-performance-goals.png[height=80%]
-
-[%notitle]
-=== Maven Build Scans – Performance Build Cache
-image::maven-scan-performance-build-cache.png[height=80%]
-
-[%notitle]
-=== Maven Build Scans – Projects
-image::maven-scan-projects.png[height=80%]
-
-[%notitle]
-=== Maven Build Scans – Plugins
-image::maven-scan-plugins.png[height=80%]
-
-[%notitle]
-=== Maven Build Scans – Switches Infrastructure
-image::maven-scan-switches-infrastructure.png[height=80%]
-
-=== Build Scans
-
-* support Gradle _and_ Maven
-* public scans are free on link:https://scans.gradle.com[scans.gradle.com]
-** https://scans.gradle.com/s/nq7w6cjm72mak/
-** without build comparison
-* Gradle Enterprise provides additional features and on-premise hosting
-
 === Gradle
 
 [source,text]
@@ -219,39 +234,41 @@ https://scans.gradle.com/s/lbmn7n4dngqgq
 
 === Maven
 
-* extension registered in `.mvn/extensions.xml`
-
-// TODO update console output
+(with extension registered in `.mvn/extensions.xml`)
 
 [source,text]
 ----
-$> mvn package
+$> mvn clean verify
 ...
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time:  26.507 s
-[INFO] Finished at: 2019-02-13T18:45:26+01:00
+[INFO] Total time:  5.262 s
+[INFO] Finished at: 2019-04-23T09:55:36+02:00
 [INFO] ------------------------------------------------------------------------
+[INFO] 13 goals, 8 executed, 5 from cache, saving at least 16s
 [INFO]
 [INFO] Publishing build scan...
-[INFO] https://scans.gradle.com/s/4r5fubfnzjo54
+[INFO] https://gradle.com/s/ypgljbvelzxzs
 [INFO]
 ----
 
-=== Performance dashboard
+=== Build Scans – Demo
 
-* example: performance regression
-* https://e.grdev.net/scans/performance?list.offset=0&list.size=50&list.sortColumn=startTime&list.sortOrder=desc&search.startTimeMax=1549321199999&search.startTimeMin=1548543600000&search.tags=CI&search.tags=not:RERUN_TESTS&search.tags=master&search.tags=SanityCheck[last week]
-* https://e.grdev.net/scans/performance?list.offset=0&list.size=50&list.sortColumn=startTime&list.sortOrder=desc&search.startTimeMax=1550080479731&search.startTimeMin=1549475679731&search.tags=CI&search.tags=not:RERUN_TESTS&search.tags=master&search.tags=SanityCheck[current]
+[NOTE.speaker]
+--
+* Navigate to summary, open performance tab, open timeline tab, open plugins view
+* Show scan list
+* Build categorization via Tags
+--
 
-=== Cache misses
+=== Build Scans
 
-* custom tags for unexpected cache misses
-* example: Gradle build
-  - https://e.grdev.net/scans?list.offset=0&list.size=50&list.sortColumn=startTime&list.sortOrder=desc&search.tags=cache_miss[all cache misses]
-  - https://e.grdev.net/s/asqxkwl6ib46y[one specific case]
-  - https://e.grdev.net/c/asqxkwl6ib46y/ea6nucbz4bvf6/task-inputs?toggledFileChanges=WyI3Z2hjdWhyb3pscHdtLWZpbGUtaW5wdXQtMCIsIjdnaGN1aHJvemxwd20tMC0wIiwiZmt2dXk3cXlqZ3Rtby1maWxlLWlucHV0LTAiLCJma3Z1eTdxeWpndG1vLTAtMCIsInhqeGRhcnl5emJzeXEtZmlsZS1pbnB1dC0wIiwieGp4ZGFyeXl6YnN5cS0wLTAiXQ#change-xjxdaryyzbsyq-0-0-0[comparison]
+* support Gradle _and_ Maven
+* public scans are free on link:https://scans.gradle.com[scans.gradle.com]
+** https://scans.gradle.com/s/nq7w6cjm72mak/
+** without build comparison, performance dashboard etc.
+* Gradle Enterprise provides additional features and on-premise hosting
 
 === Custom analyses
 
@@ -281,11 +298,23 @@ image::test-analytics.png[height=auto]
 Über Flaky Test reden.
 --
 
-== Thank you!
+== Resources
 
 //* Slides: https://wolfs.github.io/talk-developer-productivity-day-2019
-* https://gradle.org/training/[]
+* Free trainings on https://gradle.com/training/[], e.g.
   - Build Cache Deep Dive
   - Maven + Gradle Enterprise
-* https://www.youtube.com/channel/UCvClhveoEjokKIuBAsSjEwQ/videos[Youtube channel]
+* https://www.youtube.com/channel/UCvClhveoEjokKIuBAsSjEwQ/videos[YouTube channel]
+* Gradle Build Tool: https://gradle.org[]
 * Gradle Enterprise: https://gradle.com[]
+
+=== Дякую!
+
+See you tomorrow?
+
+[.plain, height=150px]
+image::junit5-logo.svg[]
+
+https://jeeconf.com/program/news-from-junit-5-x-from-revolution-to-continuous-evolution/[*News from JUnit 5.x*] +
+_From Revolution to Continuous Evolution_ +
+Tomorrow, 16:10, Track C +
