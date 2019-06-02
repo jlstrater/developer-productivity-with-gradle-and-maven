@@ -1,18 +1,18 @@
-= Fast and reliable builds with +++<br>+++Gradle and Maven
-:title-slide-background-image: title.jpeg
-:title-slide-transition: zoom
-:title-slide-transition-speed: fast
-:revnumber: {project-version}
+:example-caption!:
 ifndef::imagesdir[:imagesdir: images]
 ifndef::sourcedir[:sourcedir: ../java]
-:deckjs_transition: fade
-:navigation:
-:menu:
 :status:
+:title-slide-background-image: title.png
+:title-slide-transition: zoom
+:title-slide-transition-speed: fast
+:icons: font
+:revealjs_controls: false
 
-https://twitter.com/marcphilipp[Marc Philipp (@marcphilipp), Gradle Inc.]
+= Schnelle und zuverlässige Builds+++<br>+++mit Gradle und Maven
 
-== About me
+Marc Philipp, Gradle Inc.
+
+== Wer bin ich?
 
 [source,kotlin]
 ----
@@ -37,13 +37,14 @@ speaker {
 ** Gradle Build Tool
 ** Gradle Enterprise
 
-=== How do builds affect developer productivity?
+=== Wie beeinflusst der Build die Entwicklerproduktivität?
 
 [%step]
-* _failures:_ about 20% of builds fail due to code defects
-  - 5-10% of a team's capacity is spent on fixing
-* _slowness:_ a team's capacity is reduced by 4% for each extra minute of build time
-* _unreliability:_ 5% of a team's capacity goes into debugging build problems
+* *20% Buildfehlschläge*
+  - Fixen 5-10% Teamzeit
+* *Langsam*
+  - Pro Minute 4% Teamzeit
+* *Unzuverlässig:* 5% Teamzeit
 
 [NOTE.speaker]
 --
@@ -64,45 +65,49 @@ The build touches everything related to software development and provides a uniq
 Every software team on the planet is severely affected by all those issues including a deep lack of insight. This is why we build GE.
 --
 
-== Fast builds
+[.dark.background]
+== Schnelle Builds
 
-=== Fast builds
+image::subsection.png[background, size=cover]
 
-* faster = avoid doing needless work
-* reuse results!
-** incremental builds
-** build cache
+=== Schnelle Builds
 
-=== Incremental builds
+* Schneller = weniger machen
+* Ergebnisse wiederverwenden!
+** Inkrementeller Build
+** Build Cache
+
+=== Inkrementeller Build
 
 * Gradle 👍
 * Maven 👎
 
-=== Incremental builds
+=== Inkrementeller Build
 
-Gradle can reuse results +
-of the *last time* +
-*this build* ran +
-on *this machine*.
+Gradle kann Ergebnisse +
+des *letzten Mals* +
+als *dieser Build* +
+auf *diesem Computer* +
+ausgeführt wurde wiederverwenden.
 
-=== We can do better!
+=== Das geht noch besser!
 
-=== Why not...
+=== Wieso nicht...
 
-of *any time* +
-and *any build* +
-that ran *anywhere*.
+von *irgendwann* +
+wenn *irgendein Build* +
+*irgendwo* ausgeführt wurde.
 
-=== Even better
+=== Noch besser...
 
-For Maven and Gradle builds!
+für Maven und Gradle Builds!
 
 [%notitle]
 === Maven vs. Gradle
 
 image::maven-vs-gradle.png[height=auto]
 
-=== Build Cache for Gradle
+=== Build Cache für Gradle
 
 [%step]
 [source,text]
@@ -117,107 +122,110 @@ $> gradle --build-cache assemble
 BUILD SUCCESSFUL
 ----
 
-=== Build Cache for Gradle
+=== Build Cache für Gradle
 
-* out-of-the-box for Java, Groovy, Scala, C++ and Swift projects
-* supports compile, test and verification tasks
-* high-performance remote backend from Gradle
+* Standardmäßig für Java, Groovy, Scala, C++ und Swift
+* Unterstützt Compile, Test und Verification Tasks
+* High-Performance Remote Backend von Gradle
 * Docker Hub: https://hub.docker.com/r/gradle/build-cache-node/[gradle/build-cache-node]
 
-=== Build Cache for Maven
+=== Build Cache für Maven
 
-* custom extension (part of Gradle Enterprise)
-* initial release: March 2019
-* supported plugins: Java Compiler, Surefire/Failsafe, Javadoc, JAXB, Checkstyle
+* Eigene Extension (Teil von Gradle Enterprise)
+* Initiales Release: März 2019
+* Unterstützte Plugins: Java Compiler, Surefire/Failsafe, Javadoc, JAXB, Checkstyle
 
 === Build Cache – Demo
 
-=== How does it work?
+=== Wie funktioniert der Build Cache?
 
-- Calculate _cacheKey_ of a task/goal from its inputs:
+- Berechne _cacheKey_ eines Tasks/Goals basierend auf seinen Inputs: +
   _cacheKey(javaCompile)_ = _hash(sourceFiles, ...)_
-- Store its outputs under _cacheEntry_:
-  _cacheEntry(javaCompile)_ = _fileTree(classFiles)_
+- Speichere die Outputs unter _cacheEntry_: +
+  _cacheEntry[cacheKey(javaCompile)]_ = _fileTree(classFiles)_
 
 [.stretch.plain]
 image::task_inputs_outputs.svg[]
 
-=== Local and remote cache
+=== Lokaler und Remote Cache
 
 [%notitle,transition=none]
-=== Local and remote cache
+=== Lokaler und Remote Cache
 
 [.stretch.plain]
 image::caching-typical-scenario-01.svg[]
 
 [%notitle,transition=none]
-=== Local and remote cache
+=== Lokaler und Remote Cache
 
 [.stretch.plain]
 image::caching-typical-scenario-02.svg[]
 
 [%notitle,transition=none]
-=== Local and remote cache
+=== Lokaler und Remote Cache
 
 [.stretch.plain]
 image::caching-typical-scenario-03.svg[]
 
 [%notitle,transition=none]
-=== Local and remote cache
+=== Lokaler und Remote Cache
 
 [.stretch.plain]
 image::caching-typical-scenario-04.svg[]
 
 [%notitle,transition=none]
-=== Local and remote cache
+=== Lokaler und Remote Cache
 
 [.stretch.plain]
 image::caching-typical-scenario-05.svg[]
 
 [%notitle,transition=none]
-=== Local and remote cache
+=== Lokaler und Remote Cache
 
 [.stretch.plain]
 image::caching-typical-scenario-06.svg[]
 
 [%notitle,transition=none]
-=== Local and remote cache
+=== Lokaler und Remote Cache
 
 [.stretch.plain]
 image::caching-typical-scenario-07.svg[]
 
 [%notitle,transition=none]
-=== Local and remote cache
+=== Lokaler und Remote Cache
 
 [.stretch.plain]
 image::caching-typical-scenario-08.svg[]
 
 [%notitle,transition=none]
-=== Local and remote cache
+=== Lokaler und Remote Cache
 
 [.stretch.plain]
 image::caching-typical-scenario-09.svg[]
 
 [%notitle,transition=none]
-=== Local and remote cache
+=== Lokaler und Remote Cache
 
 [.stretch.plain]
 image::caching-typical-scenario-10.svg[]
 
-== Reliable builds
+[.dark.background]
+== Zuverlässige Builds
 
-=== Requirements
+image::subsection.png[background, size=cover]
 
-* monitoring of builds to discover regressions/improvements
-** both builds by developers and CI
-** reliability
-** performance
+=== Anforderungen
 
-=== What are Build Scans?
+* Daten um Verbesserungen/Verschlechterungen festzustellen
+** Entwickler- und CI-Builds
+** Zuverlässigkeit
+** Geschwindigkeit
 
-* persistent record of what happened during a build
-* permanent and shareable URL
-* for developers and build engineers
+=== Was sind Build Scans?
+
+* Aufzeichnung darüber, was in einem Build passiert ist
+* Permanente und teilbare URLs
+* Für Entwickler und Build Engineers
 
 === Gradle
 
@@ -234,7 +242,7 @@ https://scans.gradle.com/s/lbmn7n4dngqgq
 
 === Maven
 
-(with extension registered in `.mvn/extensions.xml`)
+(mit in `.mvn/extensions.xml` registrierter Extension)
 
 [source,text]
 ----
@@ -264,18 +272,20 @@ $> mvn clean verify
 
 === Build Scans
 
-* support Gradle _and_ Maven
-* public scans are free on link:https://scans.gradle.com[scans.gradle.com]
+* Unterstützen *Gradle _und_ Maven*
+* *Öffentliche Scans kostenlos* auf link:https://scans.gradle.com[scans.gradle.com]
 ** https://scans.gradle.com/s/nq7w6cjm72mak/
-** without build comparison, performance dashboard etc.
-* Gradle Enterprise provides additional features and on-premise hosting
+* *Gradle Enterprise* bietet zusätzliche Features und Hosting auf eigenem Server
+** Build Comparison
+** Performance Dashboard
+** Build Trends
 
-=== Custom analyses
+=== Eigene Analysen
 
-* use Export API
+* *Export API* benutzen!
 * https://github.com/gradle/build-analysis-demo
 
-image::build-analysis-data-pipeline.png[width=80%, height=auto]
+image::build-analysis-data-pipeline.png[width=100%, height=auto]
 
 [NOTE.speaker]
 --
@@ -298,23 +308,22 @@ image::test-analytics.png[height=auto]
 Über Flaky Test reden.
 --
 
-== Resources
+=== Materialien
 
-//* Slides: https://wolfs.github.io/talk-developer-productivity-day-2019
-* Free trainings on https://gradle.com/training/[], e.g.
+* *Kostenlose Trainings* auf https://gradle.com/training/[gradle.com/training], z.B.:
   - Build Cache Deep Dive
   - Maven + Gradle Enterprise
-* https://www.youtube.com/channel/UCvClhveoEjokKIuBAsSjEwQ/videos[YouTube channel]
-* Gradle Build Tool: https://gradle.org[]
-* Gradle Enterprise: https://gradle.com[]
+* *https://www.youtube.com/channel/UCvClhveoEjokKIuBAsSjEwQ/videos[YouTube-Kanal]*
+* *Gradle Build Tool:* https://gradle.org[]
+* *Gradle Enterprise:* https://gradle.com[]
 
-=== Дякую!
+[.dark.background]
+=== Vielen Dank!
 
-See you tomorrow?
+image::subsection.png[background, size=cover]
+image::thank-you.png[width=40%, height=auto]
 
-[.plain, height=150px]
-image::junit5-logo.svg[]
+[%notitle]
+=== Feedback
 
-https://jeeconf.com/program/news-from-junit-5-x-from-revolution-to-continuous-evolution/[*News from JUnit 5.x*] +
-_From Revolution to Continuous Evolution_ +
-Tomorrow, 16:10, Track C +
+image::etka-feedback.svg[background, size=contain]
