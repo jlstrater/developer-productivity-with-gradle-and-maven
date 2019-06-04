@@ -147,63 +147,61 @@ BUILD SUCCESSFUL
 [.stretch.plain]
 image::task_inputs_outputs.svg[]
 
-=== Lokaler und Remote Cache
-
-[%notitle,transition=none]
+[transition=none]
 === Lokaler und Remote Cache
 
 [.stretch.plain]
 image::caching-typical-scenario-01.svg[]
 
-[%notitle,transition=none]
+[transition=none]
 === Lokaler und Remote Cache
 
 [.stretch.plain]
 image::caching-typical-scenario-02.svg[]
 
-[%notitle,transition=none]
+[transition=none]
 === Lokaler und Remote Cache
 
 [.stretch.plain]
 image::caching-typical-scenario-03.svg[]
 
-[%notitle,transition=none]
+[transition=none]
 === Lokaler und Remote Cache
 
 [.stretch.plain]
 image::caching-typical-scenario-04.svg[]
 
-[%notitle,transition=none]
+[transition=none]
 === Lokaler und Remote Cache
 
 [.stretch.plain]
 image::caching-typical-scenario-05.svg[]
 
-[%notitle,transition=none]
+[transition=none]
 === Lokaler und Remote Cache
 
 [.stretch.plain]
 image::caching-typical-scenario-06.svg[]
 
-[%notitle,transition=none]
+[transition=none]
 === Lokaler und Remote Cache
 
 [.stretch.plain]
 image::caching-typical-scenario-07.svg[]
 
-[%notitle,transition=none]
+[transition=none]
 === Lokaler und Remote Cache
 
 [.stretch.plain]
 image::caching-typical-scenario-08.svg[]
 
-[%notitle,transition=none]
+[transition=none]
 === Lokaler und Remote Cache
 
 [.stretch.plain]
 image::caching-typical-scenario-09.svg[]
 
-[%notitle,transition=none]
+[transition=none]
 === Lokaler und Remote Cache
 
 [.stretch.plain]
@@ -233,11 +231,11 @@ image::subsection.png[background, size=cover]
 ----
 $> gradle build --scan
 ...
-BUILD SUCCESSFUL in 8m 22s
-418 actionable tasks: 112 executed, 48 from cache, 258 up-to-date
+BUILD SUCCESSFUL in 5s
+143 actionable tasks: 29 executed, 76 from cache, 38 up-to-date
 
 Publishing build scan...
-https://scans.gradle.com/s/lbmn7n4dngqgq
+https://gradle.com/s/wnftgsuyjleyi
 ----
 
 === Maven
@@ -274,7 +272,7 @@ $> mvn clean verify
 
 * Unterstützen *Gradle _und_ Maven*
 * *Öffentliche Scans kostenlos* auf link:https://scans.gradle.com[scans.gradle.com]
-** https://scans.gradle.com/s/nq7w6cjm72mak/
+** https://gradle.com/s/wnftgsuyjleyi
 * *Gradle Enterprise* bietet zusätzliche Features und Hosting auf eigenem Server
 ** Build Comparison
 ** Performance Dashboard
