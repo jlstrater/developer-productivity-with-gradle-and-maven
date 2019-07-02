@@ -1,9 +1,13 @@
-# Asciidoctor/Reveal.js presentation template
+# Developer Productivity with Gradle and Maven
 
-This is a template project for Asciidoctor+Reveal.js presentations.
-To use it, just fork this repository and update the presentation as you wish.
+As presented at the Münster JUG on July 10.
 
-## Configuration
+
+## Running This Presentation
+
+This is a project using @melix's Asciidoctor+Reveal.js template presentations. If you want to use it for yourself, just fork this repository and update the presentation as you wish.
+
+### Configuration
 
 Minimally, update the `build.gradle.kts` file to set your GitHub username:
 
@@ -19,7 +23,7 @@ and change the name of the project in `settings.gradle.kts`:
 rootProject.name = "my-awesome-presentation"
 ```
 
-## Generating the presentation
+### Generating the presentation
 
 Run:
 
@@ -27,7 +31,7 @@ Run:
 ./gradlew asciidoctor
 ```
 
-## Uploading the slides on GitHub pages
+### Uploading the slides on GitHub pages
 
 Run:
 
@@ -46,16 +50,7 @@ presentation {
 
 Then the presentation is going to be available at `https://yourUserName.github.io/yourRepoName/`
 
-## Screencasts
-
-This template supports screencasts in the [asciinema](https://asciinema.org/) format.
-Include your JSON files in `src/docs/asciidoc/screencasts`, then include them in your presentation using:
-
-```
-screencast:my_file[]
-```
-
-## Exporting the presentation
+### Exporting the presentation
 
 This template supports exporting the presentation to PDF, JPEG and PNG.
 You'll need a JDK which bundles JavaFX to do this.
