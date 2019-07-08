@@ -482,3 +482,27 @@ section.has-dark-background h3 {
     font-size: 1em;
     font-weight: bold
 }
+
+reveal table {
+    margin: auto;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.reveal table th {
+    font-weight: bold;
+}
+
+.reveal table th,
+.reveal table td {
+    text-align: center;
+}
+
+.reveal table tbody th,
+.reveal table tbody td {
+    border-bottom: none;
+}
+
+.line-through {
+    text-decoration: line-through;
+}

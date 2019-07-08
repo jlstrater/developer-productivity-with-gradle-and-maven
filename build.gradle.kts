@@ -3,6 +3,6 @@ plugins {
 }
 
 presentation {
-    githubUserName.set("marcphilipp")
-    githubRepoName.set("fast-reliable-builds-gradle-and-maven")
+    githubUserName.set("jlstrater")
+    githubRepoName.set("developer-productivity-with-gradle-and-maven")
 }

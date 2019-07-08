@@ -7,8 +7,8 @@ open class PresentationExtension(project: Project) {
     val asciidoctorJVersion = project.convention("1.5.6")
     val githubUserName = project.property<String>()
     val githubRepoName = project.convention(project.name)
-    val width = project.convention(1280)
-    val heigth = project.convention(700)
+    val width = project.convention(1920)
+    val heigth = project.convention(1080)
     val theme = project.convention("gradle")
     val highlighter = project.convention("highlightjs")
 

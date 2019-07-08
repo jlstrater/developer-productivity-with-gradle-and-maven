@@ -1,1 +1,1 @@
-rootProject.name = "fast-reliable-builds-gradle-and-maven"
+rootProject.name = "developer-productivity-with-gradle-and-maven"

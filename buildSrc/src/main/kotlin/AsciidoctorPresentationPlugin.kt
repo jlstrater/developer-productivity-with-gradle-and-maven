@@ -133,7 +133,7 @@ class AsciidoctorPresentationPlugin : Plugin<Project> {
                         "project-version" to "1.0",
                         "revealjs_transition" to "linear",
                         "revealjs_history" to "true",
-                        "revealjs_slideNumber" to "false",
+                        "revealjs_slideNumber" to "true",
                         "revealjs_theme" to extension.theme.get(),
                         "examples" to file("${projectDir}/examples")))
 
