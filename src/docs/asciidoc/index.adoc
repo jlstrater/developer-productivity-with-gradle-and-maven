@@ -13,11 +13,6 @@ ifndef::sourcedir[:sourcedir: ../java]
 Jenn Strater, Gradle
 @codeJENNerator
 
-== Outline
-
-* Maximizing developer productivity for both Gradle and Maven builds
-* Using Gradle to go beyond Maven optimizations
-
 == Who am I?
 
 [source,groovy]
@@ -94,8 +89,12 @@ Easily 5-10% of engineering capacity are spend on this.
 
 [NOTE.speaker]
 Do you even know? Is it only CI data? What about your developer machines?
-Is it minutes? Hours? What was it one month ago?
-Based on data from a Gradle Enterprise study, a large un-named company builds up to 100000 __per day__!
+How long does it take? Is it minutes? Hours? What was it one month ago?
+
+== Demo for Gradle Team
+
+[NOTE.speaker]
+144,335 for just July 2-9! And that's only a small team of 15-20 devs and one CI server.
 
 === Show me the data!
 
@@ -111,17 +110,21 @@ image::subsection.png[background, size=cover]
 
 === What is slow?
 
-[%step]
-image::scan.png[width=1920, height=auto]
-
 [%conceal]
-=== Scan list
-image::scan-list.png[width=1920, height=auto]
+=== Scan
+
+image::scan.png[width=1024, height=auto]
+
+[NOTE.speaker]
+The first data point: get the speed of individual builds with free build scans. scans.gradle.com or --scan for gradle.
 
 [%conceal]
 === performance
 
-image::performance-dashboard.png[width=1920, height=auto]
+image::performance-dashboard.png[width=auto, height=auto]
+
+[NOTE.speaker]
+1 data point means nothing or even a few. Once all builds are being scanned, we can make inferences.
 
 [%conceal]
 === trends
@@ -139,13 +142,59 @@ parallelization, using the daemon, etc.
 build caching
 tests especially, but also dependency conflicts, and other parts of the build.
 
+== How do we get faster?
+
+* **More efficient use of resources**
+* Don't rebuild what hasn't changed
+* Fail fast
+
+=== Resource usage
+
+image::jake-wharton-macbook-performance.png[width=75%, height=auto]
+
+=== Settings & Suggestions
+
+image::settings_and_suggestions.png[width=960, height=auto]
+
+[NOTE.speaker]
+Gradle only as of 2019.2
+
+=== Switches
+
+[cols="2*^.<"]
+|===
+a| image::switches_gradle.png[height=auto]
+a| image::switches_maven.png[height=auto]
+
+.<| Gradle
+.<| Maven
+|===
+
+=== Resources
+
+Gradle Performance Guide
+
+link:https://guides.gradle.org/performance[https://guides.gradle.org/performance]
+
+[NOTE.speaker]
+including more advice like performance tuning the JVM settings.
+
+Is there an equivalent for Maven?
+
+== How do we get faster?
+
+* More efficient use of resources
+* **Don't rebuild what hasn't changed**
+* Fail fast
+
 === Incremental Builds
 
-* UP-TO-DATE checking
-* better compilation
+link:https://blog.gradle.org/introducing-incremental-build-support[https://blog.gradle.org/introducing-incremental-build-support]
 
 [NOTE.speaker]
 built-in for Gradle; only in the GE extension for Maven
+UP-TO-DATE checking is one example
+results in more efficient compilation
 
 [%notitle]
 === Maven vs. Gradle
@@ -324,6 +373,16 @@ $> mvn clean verify
 ** Performance Dashboard
 ** Build Trends
 
+== Build Comparison
+
+[%conceal]
+=== Scan list
+image::scan-list.png[width=1920, height=auto]
+
+=== Compare two builds
+
+image::task-inputs-comparison.png[width=1920, height=auto]
+
 === Eigene Analysen
 
 * *Export API* benutzen!
@@ -352,17 +411,17 @@ image::test-analytics.png[height=auto]
 Über Flaky Test reden.
 --
 
-=== Materialien
+=== Resources
 
-* *Kostenlose Trainings* auf https://gradle.com/training/[gradle.com/training], z.B.:
+* *Free Trainings* at https://gradle.com/training/[gradle.com/training]:
   - Build Cache Deep Dive
   - Maven + Gradle Enterprise
-* *https://www.youtube.com/channel/UCvClhveoEjokKIuBAsSjEwQ/videos[YouTube-Kanal]*
 * *Gradle Build Tool:* https://gradle.org[]
 * *Gradle Enterprise:* https://gradle.com[]
+* *Gradle Newsletter:* https://newsletter.gradle.com
 
 [.dark.background]
-=== Vielen Dank!
+=== Questions?
 
 image::subsection.png[background, size=cover]
 image::thank-you.png[width=40%, height=auto]
