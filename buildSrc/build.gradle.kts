@@ -7,7 +7,7 @@ repositories {
 }
 
 dependencies {
-    compile("com.github.jruby-gradle:jruby-gradle-plugin:1.4.0")
+    compile("com.github.jruby-gradle:jruby-gradle-plugin:1.6.0")
     compile("org.asciidoctor:asciidoctor-gradle-plugin:1.5.9.2")
     compile("org.ysb33r.gradle:vfs-gradle-plugin:1.0")
     compile("commons-httpclient:commons-httpclient:3.1")

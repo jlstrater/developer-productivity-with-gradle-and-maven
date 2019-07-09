@@ -506,3 +506,24 @@ reveal table {
 .line-through {
     text-decoration: line-through;
 }
+
+.clearfix {
+  zoom: 1
+}
+
+.clearfix:before, .clearfix:after {
+  display: table;
+  line-height: 0;
+  content: ""
+}
+
+.clearfix:after {
+  clear: both
+}
+
+.left {
+  float: left;
+}
+.right {
+  float: right;
+}

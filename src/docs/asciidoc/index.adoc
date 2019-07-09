@@ -39,8 +39,8 @@ speaker {
 
 [cols="2*^.<"]
 |===
-a| image::gradle-build-tool-dark-green-primary.svg[width=auto, height=86px]
-a| image::gradle-enterprise-gradient-primary.svg[width=auto, height=100px]
+a| image::gradle-build-tool-dark-green-primary.svg[width=auto, height=220px]
+a| image::gradle-enterprise-gradient-primary.svg[width=auto, height=200px]
 
 .<| Build automation
 .<| Development productivity +
@@ -50,9 +50,13 @@ a| image::gradle-enterprise-gradient-primary.svg[width=auto, height=100px]
 == Why is Developer Productivity important?
 
 [%step]
-* Long developer cycles -> more time get to production
-* Context switching
-* Coffee breaks add up
+* Long developer cycles -> longer to get to production
+* More time waiting -> less times to develop features
+* Context switching -> more time to work on each feature
+
+[NOTE.speaker]
+Context switching like meetings in the middle of the day
+Waiting includes CI, requirements, waiting on feedback from QA, etc.
 
 == How are builds critical to Developer Productivity?
 
@@ -78,8 +82,8 @@ image::debugging.png[width=50%, height=auto]
 
 === Debugging Time
 * On average, 20% of all builds fail because of code defects.
-* Netflix has done internal studies that show that this consumes
-20% of their engineering capacity.
+* This easily adds up to 5-10% of engineering capacity.
+* Netflix has done internal studies that show that this consumes 20% of their engineering capacity.
 
 [NOTE.speaker]
 This is fine and is actually the job of the build. But it often takes way too long to find the cause for such a failure.
@@ -91,22 +95,26 @@ Easily 5-10% of engineering capacity are spend on this.
 Do you even know? Is it only CI data? What about your developer machines?
 How long does it take? Is it minutes? Hours? What was it one month ago?
 
-== Demo for Gradle Team
+== Gradle Team Demo
 
 [NOTE.speaker]
 144,335 for just July 2-9! And that's only a small team of 15-20 devs and one CI server.
-
-=== Show me the data!
 
 [.dark.background]
 == Faster builds
 
 image::subsection.png[background, size=cover]
 
+[NOTE.speaker]
+Productivity is important, but what can you do about it?
+
 === How do we get faster?
 
 [.line-through]
 === How do we get faster?
+
+[NOTE.speaker]
+That is the wrong question.
 
 === What is slow?
 
@@ -136,6 +144,7 @@ image::trends-dashboard.png[width=1920, height=auto]
 * More efficient use of resources
 * Don't rebuild what hasn't changed
 * Fail fast
+* Fix failures faster
 
 [NOTE.speaker]
 parallelization, using the daemon, etc.
@@ -147,6 +156,7 @@ tests especially, but also dependency conflicts, and other parts of the build.
 * **More efficient use of resources**
 * Don't rebuild what hasn't changed
 * Fail fast
+* Fix failures faster
 
 === Resource usage
 
@@ -178,7 +188,6 @@ link:https://guides.gradle.org/performance[https://guides.gradle.org/performance
 
 [NOTE.speaker]
 including more advice like performance tuning the JVM settings.
-
 Is there an equivalent for Maven?
 
 == How do we get faster?
@@ -186,8 +195,11 @@ Is there an equivalent for Maven?
 * More efficient use of resources
 * **Don't rebuild what hasn't changed**
 * Fail fast
+* Fix failures faster
 
 === Incremental Builds
+
+image::up-to-date-example.png[width=650, height=auto]
 
 link:https://blog.gradle.org/introducing-incremental-build-support[https://blog.gradle.org/introducing-incremental-build-support]
 
@@ -200,6 +212,24 @@ results in more efficient compilation
 === Maven vs. Gradle
 
 image::maven-vs-gradle.png[height=auto]
+
+[%conceal]
+=== What is caching?
+
+image::what-is-a-build-cache.png[width=auto, height=auto]
+
+=== How does the Build Cache work?
+
+[%step]
+- The _cacheKey_ for Tasks/Goals is based on the Inputs: +
+  _cacheKey(javaCompile)_ = _hash(sourceFiles, ...)_
+- The _cacheEntry_ contains the output: +
+  _cacheEntry[cacheKey(javaCompile)]_ = _fileTree(classFiles)_
+
+link:https://docs.gradle.org/current/userguide/build_cache.html#sec:task_output_caching[userguide/build_cache.html#sec:task_output_caching]
+
+[NOTE.speaker]
+inputs can also include the task type and its classpath, names of output properties, etc.
 
 === Build Cache for Gradle
 
@@ -219,106 +249,112 @@ BUILD SUCCESSFUL
 === Build Cache for Gradle
 
 * By default in Java, Groovy, Scala, C++ und Swift
-* Supports tasks such as Compile, Test und Verification
+* Supports tasks such as Compile, Javadoc, Test und Verification
 
-=== Local
-* Local cache in Gradle built tool; Remote cache managed by Gradle Enterprise
+link:https://docs.gradle.org/current/userguide/build_cache.html#sec:task_output_caching_cacheable_tasks[userguide/build_cache.html#sec:task_output_caching_cacheable_tasks]
 
-=== Build Cache für Maven
+=== Build Cache for Maven
 
-* Eigene Extension (Teil von Gradle Enterprise)
-* Initiales Release: März 2019
-* Unterstützte Plugins: Java Compiler, Surefire/Failsafe, Javadoc, JAXB, Checkstyle
+* Part of the Gradle Enterprise Maven Extension
+* Initial Release: March 2019
+* Supported Plugins: Java Compiler, Surefire/Failsafe, Javadoc, JAXB, Checkstyle, and more!
 
-=== Build Cache – Demo
-
-=== Wie funktioniert der Build Cache?
-
-- Berechne _cacheKey_ eines Tasks/Goals basierend auf seinen Inputs: +
-  _cacheKey(javaCompile)_ = _hash(sourceFiles, ...)_
-- Speichere die Outputs unter _cacheEntry_: +
-  _cacheEntry[cacheKey(javaCompile)]_ = _fileTree(classFiles)_
-
-[.stretch.plain]
-image::task_inputs_outputs.svg[]
+https://docs.gradle.com/enterprise/maven-extension/#cacheable_plugins_and_goals
 
 [transition=none]
-=== Lokaler und Remote Cache
-
-[.stretch.plain]
-image::caching-typical-scenario-01.svg[]
-
-[transition=none]
-=== Lokaler und Remote Cache
+=== Local and Remote Cache
 
 [.stretch.plain]
 image::caching-typical-scenario-02.svg[]
 
 [transition=none]
-=== Lokaler und Remote Cache
+=== Local and Remote Cache
 
 [.stretch.plain]
 image::caching-typical-scenario-03.svg[]
 
 [transition=none]
-=== Lokaler und Remote Cache
+=== Local and Remote Cache
 
 [.stretch.plain]
 image::caching-typical-scenario-04.svg[]
 
 [transition=none]
-=== Lokaler und Remote Cache
+=== Local and Remote Cache
 
 [.stretch.plain]
 image::caching-typical-scenario-05.svg[]
 
 [transition=none]
-=== Lokaler und Remote Cache
+=== Local and Remote Cache
 
 [.stretch.plain]
 image::caching-typical-scenario-06.svg[]
 
 [transition=none]
-=== Lokaler und Remote Cache
+=== Local and Remote Cache
 
 [.stretch.plain]
 image::caching-typical-scenario-07.svg[]
 
 [transition=none]
-=== Lokaler und Remote Cache
+=== Local and Remote Cache
 
 [.stretch.plain]
 image::caching-typical-scenario-08.svg[]
 
 [transition=none]
-=== Lokaler und Remote Cache
+=== Local and Remote Cache
 
 [.stretch.plain]
 image::caching-typical-scenario-09.svg[]
 
 [transition=none]
-=== Lokaler und Remote Cache
+=== Local and Remote Cache
 
 [.stretch.plain]
 image::caching-typical-scenario-10.svg[]
 
-[.dark.background]
-== Zuverlässige Builds
+=== Build Cache – Demo
 
-image::subsection.png[background, size=cover]
+=== Storing
+image::cache-store.png[width=750, height=auto]
 
-=== Anforderungen
+=== Cache Hit
+image::cache-hit.png[width=750, height=auto]
 
-* Daten um Verbesserungen/Verschlechterungen festzustellen
-** Entwickler- und CI-Builds
-** Zuverlässigkeit
-** Geschwindigkeit
+== How do we get faster?
 
-=== Was sind Build Scans?
+* More efficient use of resources
+* Don't rebuild what hasn't changed
+* **Fail fast**
+* Fix failures faster
 
-* Aufzeichnung darüber, was in einem Build passiert ist
-* Permanente und teilbare URLs
-* Für Entwickler und Build Engineers
+=== Test failures
+
+[source,groovy]
+test {
+    failFast = true
+}
+
+[source,console]
+gradle integTest --fail-fast
+
+[NOTE.speaker]
+NOT the same as maven fail fast which is Gradle's default behavior.
+
+=== Dependency Conflicts
+
+
+
+=== Use Gradle ;)
+
+== How do we get faster?
+
+* More efficient use of resources
+* Don't rebuild what hasn't changed
+* Fail fast
+* **Fix failures faster**
 
 === Gradle
 
@@ -335,7 +371,7 @@ https://gradle.com/s/wnftgsuyjleyi
 
 === Maven
 
-(mit in `.mvn/extensions.xml` registrierter Extension)
+(Register the Extension in `.mvn/extensions.xml`)
 
 [source,text]
 ----
@@ -358,20 +394,10 @@ $> mvn clean verify
 
 [NOTE.speaker]
 --
-* Navigate to summary, open performance tab, open timeline tab, open plugins view
+* Navigate to summary, look for debugging features like console and tests.
 * Show scan list
 * Build categorization via Tags
 --
-
-=== Build Scans
-
-* Unterstützen *Gradle _und_ Maven*
-* *Öffentliche Scans kostenlos* auf link:https://scans.gradle.com[scans.gradle.com]
-** https://gradle.com/s/wnftgsuyjleyi
-* *Gradle Enterprise* bietet zusätzliche Features und Hosting auf eigenem Server
-** Build Comparison
-** Performance Dashboard
-** Build Trends
 
 == Build Comparison
 
@@ -383,23 +409,27 @@ image::scan-list.png[width=1920, height=auto]
 
 image::task-inputs-comparison.png[width=1920, height=auto]
 
-=== Eigene Analysen
+== Do your own build data analysis
 
-* *Export API* benutzen!
-* https://github.com/gradle/build-analysis-demo
+Gradle Enterprise exposes build scan data for real time consumption via API
 
-image::build-analysis-data-pipeline.png[width=100%, height=auto]
+[.clearfix.center]
+--
+[.left.shadow]
+image::tableau.png[width=450px, height=auto]
+[.right.shadow]
+image::export-api.png[width=450px, height=auto]
+--
 
 [NOTE.speaker]
 --
-* Gradle Enterprise wird einige Analysen bekommen
-* Gradle Enterprise soll kein BI Tool werden - gute Einsichten out-of-the-box, der Rest via Export API möglich
+For example, Tableau used the Export API to create additional visualizations of errors and developer trends
 --
 
-[%notitle]
-=== Dashboard
+=== Export API Example
+* https://github.com/gradle/build-analysis-demo
 
-image::build-dashboard.png[height=auto]
+image::build-analysis-data-pipeline.png[width=100%, height=auto]
 
 [%notitle]
 === Dashboard
@@ -408,20 +438,36 @@ image::test-analytics.png[height=auto]
 
 [NOTE.speaker]
 --
-Über Flaky Test reden.
+For detecting and solving flaky tests.
 --
 
-=== Resources
+== Conclusion
+
+[%conceal]
+=== Conclusion
+
+[%step]
+* Measure your builds!
+* Analyze the data for both local and CI builds.
+* Improve build processes using build automation tooling.
+* Optimize builds with incrementalization and/or parallelization.
+* Iterate to maintain build happiness.
+
+[.dark.background]
+== Questions?
+
+image::subsection.png[background, size=cover]
+image::thank-you.png[width=35%, height=auto]
+icon:envelope[] jenn@gradle.com
+icon:twitter[] link:https://twitter.com/codeJENNerator[codeJENNerator] +
+icon:xing[] link:https://www.xing.com/profile/Jennifer_Strater[Jennifer Strater]
+
+== Resources
 
 * *Free Trainings* at https://gradle.com/training/[gradle.com/training]:
+  - Introduction to Gradle
   - Build Cache Deep Dive
   - Maven + Gradle Enterprise
 * *Gradle Build Tool:* https://gradle.org[]
 * *Gradle Enterprise:* https://gradle.com[]
 * *Gradle Newsletter:* https://newsletter.gradle.com
-
-[.dark.background]
-=== Questions?
-
-image::subsection.png[background, size=cover]
-image::thank-you.png[width=40%, height=auto]
