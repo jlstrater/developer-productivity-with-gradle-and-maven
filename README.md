@@ -1,6 +1,6 @@
 # Developer Productivity with Gradle and Maven
 
-As presented at the Münster JUG on July 10.
+As presented at the Münster JUG on July 10. Slides are published [here](https://jlstrater.github.io/developer-productivity-with-gradle-and-maven/#/).
 
 
 ## Running This Presentation
