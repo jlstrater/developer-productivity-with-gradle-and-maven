@@ -9,7 +9,7 @@
 .conum[data-value]:after{content:attr(data-value)}
 pre .conum[data-value]{position:relative;top:-.125em}
 b.conum *{color:inherit!important}
-.conum:not([data-value]):empty{display:none}</style><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" /><link href="reveal.js/lib/css/zenburn.css" rel="stylesheet" /><script>var link = document.createElement( 'link' );
+.conum:not([data-value]):empty{display:none}</style><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" /><link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/styles/idea.min.css" rel="stylesheet" /><script>var link = document.createElement( 'link' );
 link.rel = 'stylesheet';
 link.type = 'text/css';
 link.href = window.location.search.match( /print-pdf/gi ) ? "reveal.js/css/print/pdf.css" : "reveal.js/css/print/paper.css";
@@ -47,50 +47,30 @@ Waiting includes CI, requirements, waiting on feedback from QA, etc.</p></aside>
 Easily 5-10% of engineering capacity are spend on this.</p></aside></section></section>
 <section id="how-many-builds-are-you-running"><h2>How many builds are you running?</h2><aside class="notes"><p>Do you even know? Is it only CI data? What about your developer machines?
 How long does it take? Is it minutes? Hours? What was it one month ago?</p></aside></section>
-<section id="gradle-team-demo"><h2>Gradle Team Demo</h2><aside class="notes"><p>144,335 for just July 2-9! And that&#8217;s only a small team of 15-20 devs and one CI server.</p></aside></section>
-<section><section id="faster-builds" class="dark background" data-background-image="./images/subsection.png" data-background-size="cover"><h2>Faster builds</h2><aside class="notes"><p>Productivity is important, but what can you do about it?</p></aside></section><section id="how-do-we-get-faster"><h2>How do we get faster?</h2></section><section id="how-do-we-get-faster-2" class="line-through"><h2>How do we get faster?</h2><aside class="notes"><p>That is the wrong question.</p></aside></section><section id="what-is-slow"><h2>What is slow?</h2></section><section id="scan"><div class="imageblock" style=""><img src="./images/scan.png" alt="scan" width="1024" height="auto" /></div>
-<aside class="notes"><p>The first data point: get the speed of individual builds with free build scans. scans.gradle.com or --scan for gradle.</p></aside></section><section id="performance"><div class="imageblock" style=""><img src="./images/performance-dashboard.png" alt="performance dashboard" width="auto" height="auto" /></div>
-<aside class="notes"><p>1 data point means nothing or even a few. Once all builds are being scanned, we can make inferences.</p></aside></section><section id="trends"><div class="imageblock" style=""><img src="./images/trends-dashboard.png" alt="trends dashboard" width="1920" height="auto" /></div></section></section>
-<section id="how-do-we-get-faster-3"><h2>How do we get faster?</h2><div class="ulist"><ul><li><p>More efficient use of resources</p></li><li><p>Don&#8217;t rebuild what hasn&#8217;t changed</p></li><li><p>Fail fast</p></li><li><p>Fix failures faster</p></li></ul></div>
-<aside class="notes"><p>parallelization, using the daemon, etc.
-build caching
-tests especially, but also dependency conflicts, and other parts of the build.</p></aside></section>
-<section><section id="how-do-we-get-faster-4"><h2>How do we get faster?</h2><div class="ulist"><ul><li><p><strong>More efficient use of resources</strong></p></li><li><p>Don&#8217;t rebuild what hasn&#8217;t changed</p></li><li><p>Fail fast</p></li><li><p>Fix failures faster</p></li></ul></div></section><section id="resource-usage"><h2>Resource usage</h2><div class="imageblock" style=""><img src="./images/jake-wharton-macbook-performance.png" alt="jake wharton macbook performance" width="75%" height="auto" /></div></section><section id="settings-suggestions"><h2>Settings &amp; Suggestions</h2><div class="imageblock" style=""><img src="./images/settings_and_suggestions.png" alt="settings and suggestions" width="960" height="auto" /></div>
-<aside class="notes"><p>Gradle only as of 2019.2</p></aside></section><section id="switches"><h2>Switches</h2><table class="tableblock frame-all grid-all" style="width:100%"><colgroup><col style="width:50%" /><col style="width:50%" /></colgroup><tbody><tr><td class="tableblock halign-center valign-top"><div><div class="imageblock" style=""><img src="./images/switches_gradle.png" alt="switches gradle" width="1920" height="auto" /></div></div></td><td class="tableblock halign-center valign-top"><div><div class="imageblock" style=""><img src="./images/switches_maven.png" alt="switches maven" width="1920" height="auto" /></div></div></td></tr><tr><td class="tableblock halign-center valign-top"><p class="tableblock">Gradle</p></td><td class="tableblock halign-center valign-top"><p class="tableblock">Maven</p></td></tr></table></section><section id="resources"><h2>Resources</h2><div class="paragraph"><p>Gradle Performance Guide</p></div>
-<div class="paragraph"><p><a href="https://guides.gradle.org/performance">https://guides.gradle.org/performance</a></p></div>
-<aside class="notes"><p>including more advice like performance tuning the JVM settings.
-Is there an equivalent for Maven?</p></aside></section></section>
-<section><section id="how-do-we-get-faster-5"><h2>How do we get faster?</h2><div class="ulist"><ul><li><p>More efficient use of resources</p></li><li><p><strong>Don&#8217;t rebuild what hasn&#8217;t changed</strong></p></li><li><p>Fail fast</p></li><li><p>Fix failures faster</p></li></ul></div></section><section id="incremental-builds"><h2>Incremental Builds</h2><div class="imageblock" style=""><img src="./images/up-to-date-example.png" alt="up to date example" width="650" height="auto" /></div>
-<div class="paragraph"><p><a href="https://blog.gradle.org/introducing-incremental-build-support">https://blog.gradle.org/introducing-incremental-build-support</a></p></div>
-<aside class="notes"><p>built-in for Gradle; only in the GE extension for Maven
-UP-TO-DATE checking is one example
-results in more efficient compilation</p></aside></section><section id="maven-vs-gradle"><div class="imageblock" style=""><img src="./images/maven-vs-gradle.png" alt="maven vs gradle" width="1920" height="auto" /></div></section><section id="what-is-caching"><div class="imageblock" style=""><img src="./images/what-is-a-build-cache.png" alt="what is a build cache" width="auto" height="auto" /></div></section><section id="how-does-the-build-cache-work"><h2>How does the Build Cache work?</h2><div class="ulist"><ul><li class="fragment"><p>The <em>cacheKey</em> for Tasks/Goals is based on the Inputs:<br />
-<em>cacheKey(javaCompile)</em> = <em>hash(sourceFiles, &#8230;&#8203;)</em></p></li><li class="fragment"><p>The <em>cacheEntry</em> contains the output:<br />
-<em>cacheEntry[cacheKey(javaCompile)]</em> = <em>fileTree(classFiles)</em></p></li></ul></div>
-<div class="paragraph"><p><a href="https://docs.gradle.org/current/userguide/build_cache.html#sec:task_output_caching">userguide/build_cache.html#sec:task_output_caching</a></p></div>
-<aside class="notes"><p>inputs can also include the task type and its classpath, names of output properties, etc.</p></aside></section><section id="build-cache-for-gradle"><h2>Build Cache for Gradle</h2><pre class="highlight listingblock"><code data-noescape="" class="text language-text">$&gt; gradle --build-cache assemble
-:compileJava FROM-CACHE
-:processResources
-:classes
-:jar
-:assemble
-
-BUILD SUCCESSFUL</code></pre></section><section id="build-cache-for-gradle-2"><h2>Build Cache for Gradle</h2><div class="ulist"><ul><li><p>By default in Java, Groovy, Scala, C++ und Swift</p></li><li><p>Supports tasks such as Compile, Javadoc, Test und Verification</p></li></ul></div>
-<div class="paragraph"><p><a href="https://docs.gradle.org/current/userguide/build_cache.html#sec:task_output_caching_cacheable_tasks">userguide/build_cache.html#sec:task_output_caching_cacheable_tasks</a></p></div></section><section id="build-cache-for-maven"><h2>Build Cache for Maven</h2><div class="ulist"><ul><li><p>Part of the Gradle Enterprise Maven Extension</p></li><li><p>Initial Release: March 2019</p></li><li><p>Supported Plugins: Java Compiler, Surefire/Failsafe, Javadoc, JAXB, Checkstyle, and more!</p></li></ul></div>
-<div class="paragraph"><p><a href="https://docs.gradle.com/enterprise/maven-extension/#cacheable_plugins_and_goals" class="bare">https://docs.gradle.com/enterprise/maven-extension/#cacheable_plugins_and_goals</a></p></div></section><section id="local-and-remote-cache" data-transition="none"><h2>Local and Remote Cache</h2><div class="imageblock stretch plain" style=""><img src="./images/caching-typical-scenario-02.svg" alt="caching typical scenario 02" width="1920" height="1024" /></div></section><section id="local-and-remote-cache-2" data-transition="none"><h2>Local and Remote Cache</h2><div class="imageblock stretch plain" style=""><img src="./images/caching-typical-scenario-03.svg" alt="caching typical scenario 03" width="1920" height="1024" /></div></section><section id="local-and-remote-cache-3" data-transition="none"><h2>Local and Remote Cache</h2><div class="imageblock stretch plain" style=""><img src="./images/caching-typical-scenario-04.svg" alt="caching typical scenario 04" width="1920" height="1024" /></div></section><section id="local-and-remote-cache-4" data-transition="none"><h2>Local and Remote Cache</h2><div class="imageblock stretch plain" style=""><img src="./images/caching-typical-scenario-05.svg" alt="caching typical scenario 05" width="1920" height="1024" /></div></section><section id="local-and-remote-cache-5" data-transition="none"><h2>Local and Remote Cache</h2><div class="imageblock stretch plain" style=""><img src="./images/caching-typical-scenario-06.svg" alt="caching typical scenario 06" width="1920" height="1024" /></div></section><section id="local-and-remote-cache-6" data-transition="none"><h2>Local and Remote Cache</h2><div class="imageblock stretch plain" style=""><img src="./images/caching-typical-scenario-07.svg" alt="caching typical scenario 07" width="1920" height="1024" /></div></section><section id="local-and-remote-cache-7" data-transition="none"><h2>Local and Remote Cache</h2><div class="imageblock stretch plain" style=""><img src="./images/caching-typical-scenario-08.svg" alt="caching typical scenario 08" width="1920" height="1024" /></div></section><section id="local-and-remote-cache-8" data-transition="none"><h2>Local and Remote Cache</h2><div class="imageblock stretch plain" style=""><img src="./images/caching-typical-scenario-09.svg" alt="caching typical scenario 09" width="1920" height="1024" /></div></section><section id="local-and-remote-cache-9" data-transition="none"><h2>Local and Remote Cache</h2><div class="imageblock stretch plain" style=""><img src="./images/caching-typical-scenario-10.svg" alt="caching typical scenario 10" width="1920" height="1024" /></div></section><section id="build-cache-demo"><h2>Build Cache – Demo</h2></section><section id="storing"><h2>Storing</h2><div class="imageblock" style=""><img src="./images/cache-store.png" alt="cache store" width="750" height="auto" /></div></section><section id="cache-hit"><h2>Cache Hit</h2><div class="imageblock" style=""><img src="./images/cache-hit.png" alt="cache hit" width="750" height="auto" /></div></section></section>
-<section><section id="how-do-we-get-faster-6"><h2>How do we get faster?</h2><div class="ulist"><ul><li><p>More efficient use of resources</p></li><li><p>Don&#8217;t rebuild what hasn&#8217;t changed</p></li><li><p><strong>Fail fast</strong></p></li><li><p>Fix failures faster</p></li></ul></div></section><section id="test-failures"><h2>Test failures</h2><pre class="highlight listingblock"><code data-noescape="" class="groovy language-groovy">test {
-    failFast = true
-}</code></pre>
-<pre class="highlight listingblock"><code data-noescape="" class="console language-console">gradle integTest --fail-fast</code></pre>
-<aside class="notes"><p>NOT the same as maven fail fast which is Gradle&#8217;s default behavior.</p></aside></section><section id="dependency-conflicts"><h2>Dependency Conflicts</h2></section><section id="use-gradle"><h2>Use Gradle ;)</h2></section></section>
-<section><section id="how-do-we-get-faster-7"><h2>How do we get faster?</h2><div class="ulist"><ul><li><p>More efficient use of resources</p></li><li><p>Don&#8217;t rebuild what hasn&#8217;t changed</p></li><li><p>Fail fast</p></li><li><p><strong>Fix failures faster</strong></p></li></ul></div></section><section id="gradle-2"><h2>Gradle</h2><pre class="highlight listingblock"><code data-noescape="" class="text language-text">$&gt; gradle build --scan
+<section id="gradle-team-example"><h2>Gradle Team Example</h2><aside class="notes"><p>144,335 for just July 2-9! And that&#8217;s only a small team of 15-20 devs and one CI server.</p></aside></section>
+<section><section id="faster-builds" class="dark background" data-background-image="./images/subsection.png" data-background-size="cover"><h2>Faster builds</h2><aside class="notes"><p>Productivity is important, but what can you do about it?</p></aside></section><section id="how-do-we-get-faster"><h2>How do we get faster?</h2></section><section id="how-do-we-get-faster-2" class="line-through"><h2>How do we get faster?</h2><aside class="notes"><p>That is the wrong question.</p></aside></section><section id="what-is-slow"><h2>What is slow?</h2></section><section id="scan"><div class="imageblock" style=""><img src="./images/scan.png" alt="scan" width="800" height="auto" /></div>
+<div class="paragraph"><p><a href="https://enterprise-training.gradle.com/s/rzht6qise5ujg" class="bare">https://enterprise-training.gradle.com/s/rzht6qise5ujg</a></p></div>
+<aside class="notes"><p>The first data point: get the speed of individual builds with free build scans. scans.gradle.com or --scan for gradle.</p></aside></section><section id="getting-started-with-build-scans"><h2>Getting Started with Build Scans</h2></section><section id="gradle-2"><h2>Gradle</h2><pre class="highlight listingblock"><code data-noescape="" class="text language-text">$&gt; gradle build --scan
 ...
 BUILD SUCCESSFUL in 5s
 143 actionable tasks: 29 executed, 76 from cache, 38 up-to-date
 
 Publishing build scan...
-https://gradle.com/s/wnftgsuyjleyi</code></pre></section><section id="maven"><h2>Maven</h2><div class="paragraph"><p>(Register the Extension in <code>.mvn/extensions.xml</code>)</p></div>
-<pre class="highlight listingblock"><code data-noescape="" class="text language-text">$&gt; mvn clean verify
+https://gradle.com/s/wnftgsuyjleyi</code></pre></section><section id="gradle-build-scan-plugin"><h2>Gradle Build Scan Plugin</h2><pre class="highlight listingblock"><code data-noescape="" class="groovy language-groovy">plugins {
+  id "com.gradle.build-scan" version "2.3"
+}
+
+buildScan {
+  server "https://gradle-enterprise.yourcompany.com"
+  publishAlways()
+}</code></pre></section><section id="maven"><h2>Maven</h2><div class="paragraph"><p>(Register the Extension in <code>.mvn/extensions.xml</code>)</p></div>
+<pre class="highlight listingblock"><code data-noescape="" class="xml language-xml">&lt;extensions&gt;
+  &lt;extension&gt;
+    &lt;groupId&gt;com.gradle&lt;/groupId&gt;
+    &lt;artifactId&gt;gradle-enterprise-maven-extension&lt;/artifactId&gt;
+    &lt;version&gt;1.1.4&lt;/version&gt;
+  &lt;/extension&gt;
+&lt;/extensions&gt;</code></pre></section><section id="maven-2"><h2>Maven</h2><pre class="highlight listingblock"><code data-noescape="" class="text language-text">$&gt; mvn clean verify
 ...
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
@@ -102,19 +82,190 @@ https://gradle.com/s/wnftgsuyjleyi</code></pre></section><section id="maven"><h2
 [INFO]
 [INFO] Publishing build scan...
 [INFO] https://gradle.com/s/ypgljbvelzxzs
-[INFO]</code></pre></section><section id="build-scans-demo"><h2>Build Scans – Demo</h2><aside class="notes"><div class="ulist"><ul><li><p>Navigate to summary, look for debugging features like console and tests.</p></li><li><p>Show scan list</p></li><li><p>Build categorization via Tags</p></li></ul></div></aside></section></section>
-<section><section id="build-comparison"><h2>Build Comparison</h2></section><section id="scan-list"><div class="imageblock" style=""><img src="./images/scan-list.png" alt="scan list" width="1920" height="auto" /></div></section><section id="compare-two-builds"><h2>Compare two builds</h2><div class="imageblock" style=""><img src="./images/task-inputs-comparison.png" alt="task inputs comparison" width="1920" height="auto" /></div></section></section>
-<section><section id="do-your-own-build-data-analysis"><h2>Do your own build data analysis</h2><div class="paragraph"><p>Gradle Enterprise exposes build scan data for real time consumption via API</p></div><div class="openblock clearfix center"><div class="content"><div class="imageblock left shadow" style=""><img src="./images/tableau.png" alt="tableau" width="450px" height="auto" /></div>
-<div class="imageblock right shadow" style=""><img src="./images/export-api.png" alt="export api" width="450px" height="auto" /></div></div></div><aside class="notes"><div class="paragraph"><p>For example, Tableau used the Export API to create additional visualizations of errors and developer trends</p></div></aside></section><section id="export-api-example"><h2>Export API Example</h2><div class="ulist"><ul><li><p><a href="https://github.com/gradle/build-analysis-demo" class="bare">https://github.com/gradle/build-analysis-demo</a></p></li></ul></div>
-<div class="imageblock" style=""><img src="./images/build-analysis-data-pipeline.png" alt="build analysis data pipeline" width="100%" height="auto" /></div></section><section id="dashboard"><div class="imageblock" style=""><img src="./images/test-analytics.png" alt="test analytics" width="1920" height="auto" /></div>
-<aside class="notes"><div class="paragraph"><p>For detecting and solving flaky tests.</p></div></aside></section></section>
+[INFO]</code></pre></section><section id="maven-3"><h2>Maven</h2><div class="paragraph"><p>«project»/.mvn/gradle-enterprise.xml</p></div>
+<pre class="highlight listingblock"><code data-noescape="" class="xml language-xml">&lt;gradleEnterprise&gt;
+  &lt;server&gt;
+    &lt;url&gt;https://gradle-enterprise.yourcompany.com&lt;/url&gt;
+  &lt;/server&gt;
+  &lt;buildScan&gt;
+    &lt;publish&gt;ALWAYS&lt;/publish&gt;
+  &lt;/buildScan&gt;
+&lt;/gradleEnterprise&gt;</code></pre></section><section id="build-scans-demo"><h2>Build Scans – Demo</h2><div class="paragraph"><p><a href="https://enterprise-training.gradle.com/s/rzht6qise5ujg" class="bare">https://enterprise-training.gradle.com/s/rzht6qise5ujg</a></p></div>
+<aside class="notes"><div class="ulist"><ul><li><p>Navigate to summary, look for debugging features like console and tests.</p></li><li><p>Show scan list</p></li><li><p>Build categorization via Tags</p></li></ul></div></aside></section><section id="performance"><div class="imageblock" style=""><img src="./images/performance-dashboard.png" alt="performance dashboard" width="auto" height="auto" /></div>
+<aside class="notes"><p>1 data point means nothing or even a few. Once all builds are being scanned, we can make inferences.</p></aside></section><section id="trends"><div class="imageblock" style=""><img src="./images/trends-dashboard.png" alt="trends dashboard" width="1920" height="auto" /></div></section></section>
+<section id="how-do-we-get-faster-3"><h2>How do we get faster?</h2><div class="ulist"><ul><li><p>More efficient use of resources</p></li><li><p>Don&#8217;t rebuild what hasn&#8217;t changed</p></li><li><p>Run builds efficiently</p></li><li><p>Fix failures faster</p></li></ul></div>
+<aside class="notes"><p>parallelization, using the daemon, etc.
+build caching
+tests especially, but also dependency conflicts, and other parts of the build.</p></aside></section>
+<section><section id="how-do-we-get-faster-4"><h2>How do we get faster?</h2><div class="ulist"><ul><li><p><strong>More efficient use of resources</strong></p></li><li><p>Don&#8217;t rebuild what hasn&#8217;t changed</p></li><li><p>Run builds efficiently</p></li><li><p>Fix failures faster</p></li></ul></div></section><section id="resource-usage"><h2>Resource usage</h2><div class="imageblock" style=""><img src="./images/jake-wharton-macbook-performance.png" alt="jake wharton macbook performance" width="75%" height="auto" /></div></section><section id="settings-suggestions"><h2>Settings &amp; Suggestions</h2><div class="imageblock" style=""><img src="./images/settings_and_suggestions.png" alt="settings and suggestions" width="960" height="auto" /></div>
+<aside class="notes"><p>Gradle only as of 2019.2</p></aside></section><section id="switches"><h2>Switches</h2><table class="tableblock frame-all grid-all" style="width:100%"><colgroup><col style="width:50%" /><col style="width:50%" /></colgroup><tbody><tr><td class="tableblock halign-center valign-top"><div><div class="imageblock" style=""><img src="./images/switches_gradle.png" alt="switches gradle" width="1920" height="auto" /></div></div></td><td class="tableblock halign-center valign-top"><div><div class="imageblock" style=""><img src="./images/switches_maven.png" alt="switches maven" width="1920" height="auto" /></div></div></td></tr><tr><td class="tableblock halign-center valign-top"><p class="tableblock">Gradle</p></td><td class="tableblock halign-center valign-top"><p class="tableblock">Maven</p></td></tr></table></section><section id="infrastructure"><h2>Infrastructure</h2><table class="tableblock frame-all grid-all" style="width:100%"><colgroup><col style="width:50%" /><col style="width:50%" /></colgroup><tbody><tr><td class="tableblock halign-center valign-top"><div><div class="imageblock" style=""><img src="./images/infra-gradle.png" alt="infra gradle" width="auto" height="auto" /></div></div></td><td class="tableblock halign-center valign-top"><div><div class="imageblock" style=""><img src="./images/infra-maven.png" alt="infra maven" width="auto" height="auto" /></div></div></td></tr><tr><td class="tableblock halign-center valign-top"><p class="tableblock">Gradle</p></td><td class="tableblock halign-center valign-top"><p class="tableblock">Maven</p></td></tr></table></section><section id="resources"><h2>Resources</h2><div class="ulist"><ul><li><p><a href="https://guides.gradle.org/performance">Gradle Performance Guide</a></p></li><li><p><a href="https://jrebel.com/rebellabs/your-maven-build-is-slow-speed-it-up/">Zeroturnaround Maven Performance Guide</a></p></li></ul></div>
+<aside class="notes"><p>including more advice like performance tuning the JVM settings.</p></aside></section></section>
+<section><section id="how-do-we-get-faster-5"><h2>How do we get faster?</h2><div class="ulist"><ul><li><p>More efficient use of resources</p></li><li><p><strong>Don&#8217;t rebuild what hasn&#8217;t changed</strong></p></li><li><p>Run builds efficiently</p></li><li><p>Fix failures faster</p></li></ul></div></section><section id="incremental-builds"><h2>Incremental Builds</h2><div class="imageblock" style=""><img src="./images/up-to-date-example.png" alt="up to date example" width="650" height="auto" /></div>
+<div class="paragraph"><p><a href="https://blog.gradle.org/introducing-incremental-build-support">https://blog.gradle.org/introducing-incremental-build-support</a></p></div>
+<aside class="notes"><p>built-in for Gradle; only in the GE extension for Maven
+UP-TO-DATE checking is one example
+results in more efficient compilation
+caching is a property like we just talked about</p></aside></section><section id="maven-vs-gradle"><div class="imageblock" style=""><img src="./images/maven-vs-gradle.png" alt="maven vs gradle" width="1920" height="auto" /></div></section><section id="what-is-caching"><div class="imageblock" style=""><img src="./images/what-is-a-build-cache.png" alt="what is a build cache" width="auto" height="auto" /></div></section><section id="how-does-the-build-cache-work"><h2>How does the Build Cache work?</h2><div class="ulist"><ul><li class="fragment"><p>The <em>cacheKey</em> for Tasks/Goals is based on the Inputs:<br />
+<em>cacheKey(javaCompile)</em> = <em>hash(sourceFiles, &#8230;&#8203;)</em></p></li><li class="fragment"><p>The <em>cacheEntry</em> contains the output:<br />
+<em>cacheEntry[cacheKey(javaCompile)]</em> = <em>fileTree(classFiles)</em></p></li></ul></div>
+<div class="paragraph"><p><a href="https://docs.gradle.org/current/userguide/build_cache.html#sec:task_output_caching">userguide/build_cache.html#sec:task_output_caching</a></p></div>
+<aside class="notes"><p>inputs can also include the task type and its classpath, names of output properties, etc.</p></aside></section><section id="build-cache-for-gradle-single-run"><h2>Build Cache for Gradle (single run)</h2><pre class="highlight listingblock"><code data-noescape="" class="text language-text">$&gt; gradle --build-cache assemble
+:compileJava FROM-CACHE
+:processResources
+:classes
+:jar
+:assemble
+
+BUILD SUCCESSFUL</code></pre></section><section id="build-cache-for-gradle-all"><h2>Build Cache for Gradle (all)</h2><div class="paragraph"><p>Set <code>org.gradle.caching=true</code> in gradle.properties</p></div></section><section id="build-cache-for-gradle"><h2>Build Cache for Gradle</h2><div class="ulist"><ul><li><p>By default in Java, Groovy, Scala, C++ und Swift</p></li><li><p>Supports tasks such as Compile, Javadoc, Test und Verification</p></li></ul></div>
+<div class="paragraph"><p><a href="https://docs.gradle.org/current/userguide/build_cache.html#sec:task_output_caching_cacheable_tasks">userguide/build_cache.html#sec:task_output_caching_cacheable_tasks</a></p></div></section><section id="build-cache-for-maven"><h2>Build Cache for Maven</h2><div class="ulist"><ul><li><p>Requires the Gradle Enterprise Maven Extension</p></li><li><p>Only supported for clean builds</p></li><li><p>Initial Release: March 2019</p></li><li><p>Supported Plugins: Java Compiler, Surefire/Failsafe, Javadoc, JAXB, Checkstyle, and more!</p></li></ul></div>
+<div class="paragraph"><p><a href="https://docs.gradle.com/enterprise/maven-extension/#cacheable_plugins_and_goals" class="bare">https://docs.gradle.com/enterprise/maven-extension/#cacheable_plugins_and_goals</a></p></div></section><section id="build-cache-demo"><h2>Build Cache – Demo</h2></section><section id="storing"><h2>Storing</h2><div class="imageblock" style=""><img src="./images/cache-store.png" alt="cache store" width="750" height="auto" /></div></section><section id="cache-hit"><h2>Cache Hit</h2><div class="imageblock" style=""><img src="./images/cache-hit.png" alt="cache hit" width="750" height="auto" /></div></section><section id="local-and-remote-cache" data-transition="none"><h2>Local and Remote Cache</h2><div class="imageblock stretch plain" style=""><img src="./images/caching-typical-scenario-02.svg" alt="caching typical scenario 02" width="1920" height="1024" /></div></section><section id="local-and-remote-cache-2" data-transition="none"><h2>Local and Remote Cache</h2><div class="imageblock stretch plain" style=""><img src="./images/caching-typical-scenario-03.svg" alt="caching typical scenario 03" width="1920" height="1024" /></div></section><section id="local-and-remote-cache-3" data-transition="none"><h2>Local and Remote Cache</h2><div class="imageblock stretch plain" style=""><img src="./images/caching-typical-scenario-04.svg" alt="caching typical scenario 04" width="1920" height="1024" /></div></section><section id="local-and-remote-cache-4" data-transition="none"><h2>Local and Remote Cache</h2><div class="imageblock stretch plain" style=""><img src="./images/caching-typical-scenario-05.svg" alt="caching typical scenario 05" width="1920" height="1024" /></div></section><section id="local-and-remote-cache-5" data-transition="none"><h2>Local and Remote Cache</h2><div class="imageblock stretch plain" style=""><img src="./images/caching-typical-scenario-06.svg" alt="caching typical scenario 06" width="1920" height="1024" /></div></section><section id="local-and-remote-cache-6" data-transition="none"><h2>Local and Remote Cache</h2><div class="imageblock stretch plain" style=""><img src="./images/caching-typical-scenario-07.svg" alt="caching typical scenario 07" width="1920" height="1024" /></div></section><section id="local-and-remote-cache-7" data-transition="none"><h2>Local and Remote Cache</h2><div class="imageblock stretch plain" style=""><img src="./images/caching-typical-scenario-08.svg" alt="caching typical scenario 08" width="1920" height="1024" /></div></section><section id="local-and-remote-cache-8" data-transition="none"><h2>Local and Remote Cache</h2><div class="imageblock stretch plain" style=""><img src="./images/caching-typical-scenario-09.svg" alt="caching typical scenario 09" width="1920" height="1024" /></div></section><section id="local-and-remote-cache-9" data-transition="none"><h2>Local and Remote Cache</h2><div class="imageblock stretch plain" style=""><img src="./images/caching-typical-scenario-10.svg" alt="caching typical scenario 10" width="1920" height="1024" /></div></section><section id="remote-cache-configuration-gradle"><h2>Remote cache configuration (Gradle)</h2><div class="paragraph"><p><em>settings.gradle</em></p></div>
+<pre class="highlight listingblock"><code data-noescape="" class="groovy language-groovy">buildCache {
+    remote(HttpBuildCache) {
+        url = 'https://gradle-enterprise.yourcompany.com/cache/'
+    }
+}</code></pre></section><section id="conditional-cache-configuration-gradle"><h2>Conditional cache configuration (Gradle)</h2><div class="paragraph"><p><em>settings.gradle</em></p></div>
+<pre class="highlight listingblock"><code data-noescape="" class="groovy language-groovy">def ciServer = System.getenv().containsKey('CI')
+
+buildCache {
+    local {
+        enabled = !ciServer
+    }
+    remote(HttpBuildCache) {
+        url = 'https://gradle-enterprise.yourcompany.com/cache/'
+        push = ciServer
+    }
+}</code></pre></section><section id="remote-cache-configuration-maven"><h2>Remote cache configuration (Maven)</h2><pre class="highlight listingblock"><code data-noescape="" class="xml language-xml">&lt;gradleEnterprise&gt;
+  &lt;server&gt;
+    &lt;url&gt;https://gradle-enterprise.yourcompany.com&lt;/url&gt;
+  &lt;/server&gt;
+&lt;/gradleEnterprise&gt;</code></pre>
+<div class="paragraph"><p>Per project: <em>«project»/.mvn/gradle-enterprise.xml</em><br />
+Per user: <em>~/.m2/gradle-enterprise.xml</em>.</p></div></section><section id="conditional-cache-configuration-maven"><h2>Conditional cache configuration (Maven)</h2><pre class="highlight listingblock"><code data-noescape="" class="xml language-xml">&lt;gradleEnterprise&gt;
+  &lt;server&gt;
+    &lt;url&gt;https://gradle-enterprise.yourcompany.com&lt;/url&gt;
+  &lt;/server&gt;
+  &lt;buildCache&gt;
+    &lt;remote&gt;
+      &lt;storeEnabled&gt;false&lt;/enabled&gt;
+    &lt;/remote&gt;
+  &lt;/buildCache&gt;
+&lt;/gradleEnterprise&gt;</code></pre>
+<div class="paragraph"><p><code>./mvnw clean assemble -Dgradle.cache.remote.storeEnabled=true</code></p></div></section><section id="enterprise-server-setup"><div class="imageblock" style=""><img src="./images/what-is.png" alt="what is" width="auto" height="auto" /></div></section><section id="cache-administration"><h2>Cache Administration</h2><div class="imageblock" style=""><img src="./images/cache-admin.png" alt="cache admin" width="auto" height="550" /></div></section><section id="cache-administration-2"><h2>Cache Administration</h2><div class="imageblock" style=""><img src="./images/cache-admin-nodes.png" alt="cache admin nodes" width="auto" height="550" /></div></section></section>
+<section id="pause" class="dark background" data-background-image="./images/subsection.png" data-background-size="cover"><h2>Pause</h2><aside class="notes"><p>and when we return, we&#8217;ll start with failing fast</p></aside></section>
+<section><section id="how-do-we-get-faster-6"><h2>How do we get faster?</h2><div class="ulist"><ul><li><p>More efficient use of resources</p></li><li><p>Don&#8217;t rebuild what hasn&#8217;t changed</p></li><li><p><strong>Run builds efficiently</strong></p></li><li><p>Fix failures faster</p></li></ul></div></section><section id="learn-the-build-tools"><h2>Learn the build tools</h2><aside class="notes"><p>something I&#8217;m still working on myself.</p></aside></section><section id="maven-lifecycle"><div class="imageblock" style=""><img src="./images/maven-lifecycle.jpg" alt="maven lifecycle" width="auto" height="auto" /></div></section><section id="gradle-3"><h2>Gradle</h2><div class="imageblock" style=""><img src="./images/gradle-task-graph.png" alt="gradle task graph" width="auto" height="450" /></div>
+<div class="paragraph"><p><a href="https://docs.gradle.org/current/userguide/what_is_gradle.html" class="bare">https://docs.gradle.org/current/userguide/what_is_gradle.html</a></p></div></section><section id="behavioral-changes"><h2>Behavioral changes</h2></section><section id="behavioral-changes-2"><div class="ulist"><ul><li class="fragment"><p>Gradle users should stop running clean!</p></li><li class="fragment"><p>Yes, even for CI.</p></li></ul></div>
+<aside class="notes"><p>Maven users can and <em>should</em> use clean with caching.
+This is especially true for CI where you destroy any speed advantages creating ephemeral builds.</p></aside></section><section id="behavioral-changes-3"><div class="paragraph"><p>Only run the tasks you need.</p></div></section><section id="behavioral-changes-4"><div class="paragraph"><p>Use dependency caching.</p></div>
+<aside class="notes"><p>native to maven (local). For Gradle, don&#8217;t refresh dependencies when you don&#8217;t need to.</p></aside></section><section id="fail-tests-as-soon-as-possible"><h2>Fail tests as soon as possible</h2><pre class="highlight listingblock"><code data-noescape="" class="groovy language-groovy">test {
+    failFast = true
+}</code></pre>
+<pre class="highlight listingblock"><code data-noescape="" class="console language-console">gradle integTest --fail-fast</code></pre>
+<aside class="notes"><p>NOT the same as maven fail fast which is Gradle&#8217;s default behavior.
+Gradle reruns failing tests first the next time.</p></aside></section><section id="dependency-conflicts"><h2>Dependency Conflicts</h2><div class="imageblock" style=""><img src="./images/collaboration.png" alt="collaboration" width="auto" height="auto" /></div></section><section id="use-gradle"><h2>Use Gradle ;)</h2></section></section>
+<section><section id="how-do-we-get-faster-7"><h2>How do we get faster?</h2><div class="ulist"><ul><li><p>More efficient use of resources</p></li><li><p>Don&#8217;t rebuild what hasn&#8217;t changed</p></li><li><p>Run builds efficiently</p></li><li><p><strong>Fix failures faster</strong></p></li></ul></div></section><section id="extending-build-scans"><h2>Extending build scans</h2><aside class="notes"><p>demo tags for local/ci on grdev</p></aside></section><section id="extending-build-scans-gradle"><h2>Extending build scans (Gradle)</h2><div class="paragraph"><p><em>build.gradle</em></p></div>
+<pre class="highlight listingblock"><code data-noescape="" class="groovy language-groovy">def ciServer = System.getenv().containsKey('CI')
+
+buildScan {
+  tag(ciServer ? "CI" : "local")
+  value("buildNumber", 2)
+  link("CI Build", "http://ci-server/build/2")
+}</code></pre>
+<div class="paragraph"><p>Or via system properties:<br />
+<code>./gradlew build -Dscan.tag.CI</code></p></div></section><section id="extending-build-scans-maven"><h2>Extending build scans (Maven)</h2><div class="paragraph"><p><em>pom.xml</em></p></div>
+<pre class="highlight listingblock"><code data-noescape="" class="xml language-xml">&lt;plugins&gt;
+  &lt;plugin&gt;
+    &lt;groupId&gt;org.gradle&lt;/groupId&gt;
+    &lt;artifactId&gt;gradle-enterprise-maven-extension&lt;/artifactId&gt;
+    &lt;version&gt;1.1.4&lt;/version&gt;
+    &lt;configuration&gt;
+      &lt;gradleEnterprise&gt;
+        &lt;buildScan&gt;
+          &lt;tags&gt;&lt;tag&gt;CI&lt;/tag&gt;&lt;/tags&gt;
+          &lt;links&gt;&lt;link&gt;&lt;name&gt;CI Build&lt;name&gt;&lt;url&gt;http://ci-server/build/2&lt;/url&gt;&lt;/link&gt;&lt;/links&gt;
+          &lt;values&gt;&lt;value&gt;&lt;name&gt;buildNumber&lt;name&gt;&lt;value&gt;2&lt;/value&gt;&lt;/value&gt;&lt;/values&gt;
+        &lt;/buildScan&gt;
+      &lt;/gradleEnterprise&gt;
+    &lt;/configuration&gt;
+  &lt;plugin&gt;
+&lt;/plugins&gt;</code></pre>
+<div class="paragraph"><p>Or via system properties:<br />
+<code>./mvnw package -Dscan.tag.CI</code></p></div></section><section id="extending-build-scans-maven-2"><h2>Extending build scans (Maven)</h2><div class="paragraph"><p>Complex logic can be implemented as a Groovy script</p></div>
+<pre class="highlight listingblock"><code data-noescape="" class="xml language-xml">&lt;plugin&gt;
+  &lt;groupId&gt;org.codehaus.gmavenplus&lt;/groupId&gt;
+  &lt;artifactId&gt;gmavenplus-plugin&lt;/artifactId&gt;
+  &lt;version&gt;1.6.2&lt;/version&gt;
+  &lt;executions&gt;
+    &lt;execution&gt;
+      &lt;id&gt;build-scan-user-data&lt;/id&gt;
+      &lt;phase&gt;validate&lt;/phase&gt;
+      &lt;goals&gt;
+        &lt;goal&gt;execute&lt;/goal&gt;
+      &lt;/goals&gt;
+    &lt;/execution&gt;
+  &lt;/executions&gt;
+  ...</code></pre></section><section id="extending-build-scans-maven-3"><h2>Extending build scans (Maven)</h2><pre class="highlight listingblock"><code data-noescape="" class="xml language-xml">  &lt;configuration&gt;
+    &lt;scripts&gt;
+      &lt;script&gt;file:///${project.basedir}/buildScanUserData.groovy&lt;/script&gt;
+    &lt;/scripts&gt;
+  &lt;/configuration&gt;
+  &lt;dependencies&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;org.codehaus.groovy&lt;/groupId&gt;
+      &lt;artifactId&gt;groovy-all&lt;/artifactId&gt;
+      &lt;version&gt;2.5.6&lt;/version&gt;
+      &lt;type&gt;pom&lt;/type&gt;
+      &lt;scope&gt;runtime&lt;/scope&gt;
+    &lt;/dependency&gt;
+  &lt;/dependencies&gt;
+&lt;/plugin&gt;</code></pre></section><section id="extending-build-scans-maven-4"><h2>Extending build scans (Maven)</h2><div class="paragraph"><p><em>buildScanUserData.groovy</em></p></div>
+<pre class="highlight listingblock"><code data-noescape="" class="groovy language-groovy">def buildScan =
+  session.lookup("com.gradle.maven.extension.api.scan.BuildScanApi")
+
+def ci = System.getenv('CI')
+if (ci) {
+  buildScan.tag('CI')
+} else {
+  buildScan.tag('Local')
+}</code></pre>
+<aside class="notes"><p>not just for ci vs local, but with logic, we can also tag log running builds, specific types of failures and more.</p></aside></section><section id="collaboration-through-deep-linking"><h2>Collaboration through Deep Linking</h2><div class="imageblock" style=""><img src="./images/collaboration.png" alt="collaboration" width="auto" height="auto" /></div></section><section id="build-comparison"><h2>Build Comparison</h2></section><section id="scan-list"><div class="imageblock" style=""><img src="./images/scan-list.png" alt="scan list" width="1920" height="auto" /></div></section><section id="compare-two-builds"><h2>Compare two builds</h2><div class="imageblock" style=""><img src="./images/task-inputs-comparison.png" alt="task inputs comparison" width="1920" height="auto" /></div>
+<aside class="notes"><p>countless uses including debugging failures vs passing builds, and debugging cache misses.</p></aside></section></section>
+<section><section id="input-volatility"><h2>Input volatility</h2><div class="ulist"><ul><li><p>Inputs need to be stable and portable</p></li><li><p>Common problems:</p><div class="ulist"><ul><li><p>Timestamps</p></li><li><p>Absolute file paths</p></li><li><p>Non-deterministic ordering</p></li></ul></div></li></ul></div></section><section id="volatile-inputs"><h2>Volatile inputs</h2><div class="imageblock" style=""><img src="./images/volatile-inputs.png" alt="volatile inputs" width="auto" height="auto" /></div></section><section id="runtime-classpath-normalization"><h2>Runtime classpath normalization</h2><div class="paragraph"><p>Inconsequential &amp; volatile files on runtime classpaths can be ignored.</p></div>
+<div class="paragraph"><p>More cache hits and faster builds.</p></div></section><section id="runtime-classpath-normalization-2"><h2>Runtime classpath normalization</h2><div class="paragraph"><p>Inconsequential &amp; volatile files on runtime classpaths can be ignored.</p></div>
+<div class="paragraph"><p>More cache hits and faster builds.</p></div></section><section id="runtime-classpath-normalization-gradle"><h2>Runtime classpath normalization (Gradle)</h2><div class="paragraph"><p><em>build.gradle</em></p></div>
+<pre class="highlight listingblock"><code data-noescape="" class="groovy language-groovy">normalization {
+    runtimeClasspath {
+        ignore 'build-info.properties'
+    }
+}</code></pre></section><section id="runtime-classpath-normalization-maven"><h2>Runtime classpath normalization (Maven)</h2><div class="paragraph"><p><em>pom.xml</em></p></div>
+<pre class="highlight listingblock"><code data-noescape="" class="xml language-xml">&lt;plugin&gt;
+  &lt;groupId&gt;com.gradle&lt;/groupId&gt;
+  &lt;artifactId&gt;gradle-enterprise-maven-extension&lt;/artifactId&gt;
+  &lt;version&gt;1.1.4&lt;/version&gt;
+  &lt;configuration&gt;
+    &lt;gradleEnterprise&gt;
+      &lt;normalization&gt;
+        &lt;runtimeClassPath&gt;
+          &lt;ignoredFiles&gt;
+            &lt;ignoredFile&gt;META-INF/build.properties&lt;/ignoredFile&gt;
+          &lt;/ignoredFiles&gt;
+        &lt;/runtimeClassPath&gt;
+      &lt;/normalization&gt;
+    &lt;/gradleEnterprise&gt;
+  &lt;/configuration&gt;
+&lt;/plugin&gt;</code></pre></section></section>
+<section><section id="gradle-is-a-data-platform"><h2>Gradle is a Data Platform</h2><div class="imageblock" style=""><img src="./images/gradle-data-platform.png" alt="gradle data platform" width="auto" height="auto" /></div></section><section id="performance-dashboard"><h2>Performance Dashboard</h2><div class="imageblock" style=""><img src="./images/performance-dashboard.png" alt="performance dashboard" width="auto" height="auto" /></div></section><section id="trends-dashboard"><h2>Trends Dashboard</h2><div class="imageblock" style=""><img src="./images/trends-dashboard.png" alt="trends dashboard" width="auto" height="auto" /></div></section><section id="do-your-own-build-data-analysis"><h2>Do your own build data analysis</h2><div class="paragraph"><p>Gradle Enterprise exposes build scan data for real time consumption via API</p></div>
+<div class="openblock clearfix center"><div class="content"><div class="imageblock left shadow" style=""><img src="./images/tableau.png" alt="tableau" width="450px" height="auto" /></div>
+<div class="imageblock right shadow" style=""><img src="./images/export-api.png" alt="export api" width="450px" height="auto" /></div></div></div>
+<aside class="notes"><div class="paragraph"><p>For example, Tableau used the Export API to create additional visualizations of errors and developer trends</p></div></aside></section><section id="export-api-example"><h2>Export API Example</h2><div class="ulist"><ul><li><p><a href="https://github.com/gradle/build-analysis-demo" class="bare">https://github.com/gradle/build-analysis-demo</a></p></li></ul></div>
+<div class="imageblock" style=""><img src="./images/build-analysis-data-pipeline.png" alt="build analysis data pipeline" width="100%" height="auto" /></div></section><section id="dashboard"><div class="imageblock" style=""><img src="./images/build-dashboard.png" alt="build dashboard" width="1920" height="auto" /></div></section><section id="dashboard-2"><div class="imageblock" style=""><img src="./images/test-analytics.png" alt="test analytics" width="1920" height="auto" /></div>
+<aside class="notes"><div class="paragraph"><p>For detecting and solving flaky tests.</p></div></aside></section><section id="roadmap"><h2>Roadmap</h2><div class="ulist"><ul><li><p>Test acceleration via remote test execution</p></li><li><p>More build analytics, including flakey tests insights</p></li><li><p>More Gradle dependency insights, feature parity with command line</p></li><li><p>Deeper Maven insights, console log, tests, dependencies, comparisons</p></li></ul></div></section><section id="trial"><h2>Trial</h2><div class="paragraph"><p>Request a free 30-day trial at <a href="https://gradle.com/enterprise/trial/">https://gradle.com/enterprise/trial</a>.</p></div></section></section>
+<section id="resources-2"><h2>Resources</h2><div class="ulist"><ul><li><p><strong>Free Trainings</strong> at <a href="https://gradle.com/training/">gradle.com/training</a>:</p><div class="ulist"><ul><li><p>Introduction to Gradle</p></li><li><p>Build Cache Deep Dive</p></li><li><p>Maven + Gradle Enterprise</p></li></ul></div></li><li><p><strong>Gradle Build Tool Docs:</strong> <a href="https://docs.gradle.org" class="bare">https://docs.gradle.org</a></p></li><li><p><strong>Gradle Enterprise Docs &amp; Tutorials:</strong> <a href="https://docs.gradle.com" class="bare">https://docs.gradle.com</a></p></li><li><p><strong>Free build scans for Maven &amp; Gradle:</strong> <a href="https://scans.gradle.com" class="bare">https://scans.gradle.com</a></p></li><li><p><strong>Gradle Newsletter:</strong> <a href="https://newsletter.gradle.com" class="bare">https://newsletter.gradle.com</a></p></li></ul></div></section>
 <section><section id="conclusion"><h2>Conclusion</h2></section><section id="conclusion-2"><div class="ulist"><ul><li class="fragment"><p>Measure your builds!</p></li><li class="fragment"><p>Analyze the data for both local and CI builds.</p></li><li class="fragment"><p>Improve build processes using build automation tooling.</p></li><li class="fragment"><p>Optimize builds with incrementalization and/or parallelization.</p></li><li class="fragment"><p>Iterate to maintain build happiness.</p></li></ul></div></section></section>
 <section id="questions" class="dark background" data-background-image="./images/subsection.png" data-background-size="cover"><h2>Questions?</h2>
 <div class="imageblock" style=""><img src="./images/thank-you.png" alt="thank you" width="35%" height="auto" /></div>
 <div class="paragraph"><p><span class="icon"><i class="fa fa-envelope"></i></span> <a href="mailto:jenn@gradle.com">jenn@gradle.com</a>
 <span class="icon"><i class="fa fa-twitter"></i></span> <a href="https://twitter.com/codeJENNerator">codeJENNerator</a><br />
-<span class="icon"><i class="fa fa-xing"></i></span> <a href="https://www.xing.com/profile/Jennifer_Strater">Jennifer Strater</a></p></div></section>
-<section id="resources-2"><h2>Resources</h2><div class="ulist"><ul><li><p><strong>Free Trainings</strong> at <a href="https://gradle.com/training/">gradle.com/training</a>:</p><div class="ulist"><ul><li><p>Introduction to Gradle</p></li><li><p>Build Cache Deep Dive</p></li><li><p>Maven + Gradle Enterprise</p></li></ul></div></li><li><p><strong>Gradle Build Tool:</strong> <a href="https://gradle.org" class="bare">https://gradle.org</a></p></li><li><p><strong>Gradle Enterprise:</strong> <a href="https://gradle.com" class="bare">https://gradle.com</a></p></li><li><p><strong>Gradle Newsletter:</strong> <a href="https://newsletter.gradle.com" class="bare">https://newsletter.gradle.com</a></p></li></ul></div></section></div></div><script src="reveal.js/lib/js/head.min.js"></script><script src="reveal.js/js/reveal.js"></script><script>Array.prototype.slice.call(document.querySelectorAll('.slides section')).forEach(function(slide) {
+<span class="icon"><i class="fa fa-xing"></i></span> <a href="https://www.xing.com/profile/Jennifer_Strater">Jennifer Strater</a></p></div></section></div></div><script src="reveal.js/lib/js/head.min.js"></script><script src="reveal.js/js/reveal.js"></script><script>Array.prototype.slice.call(document.querySelectorAll('.slides section')).forEach(function(slide) {
   if (slide.getAttribute('data-background-color')) return;
   // user needs to explicitly say he wants CSS color to override otherwise we might break custom css or theme (#226)
   if (!(slide.classList.contains('canvas') || slide.classList.contains('background'))) return;
