@@ -483,7 +483,7 @@ section.has-dark-background h3 {
     font-weight: bold
 }
 
-reveal table {
+.reveal table {
     margin: auto;
     border-collapse: collapse;
     border-spacing: 0;

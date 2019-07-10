@@ -7,6 +7,7 @@ ifndef::sourcedir[:sourcedir: ../java]
 :title-slide-transition-speed: fast
 :icons: font
 :revealjs_controls: true
+:highlightjs-theme: https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/styles/idea.min.css
 
 = Maximizing Developer Productivity+++<br>+++with Gradle and Maven
 
@@ -95,7 +96,7 @@ Easily 5-10% of engineering capacity are spend on this.
 Do you even know? Is it only CI data? What about your developer machines?
 How long does it take? Is it minutes? Hours? What was it one month ago?
 
-== Gradle Team Demo
+== Gradle Team Example
 
 [NOTE.speaker]
 144,335 for just July 2-9! And that's only a small team of 15-20 devs and one CI server.
@@ -121,10 +122,102 @@ That is the wrong question.
 [%conceal]
 === Scan
 
-image::scan.png[width=1024, height=auto]
+image::scan.png[width=800, height=auto]
+
+https://enterprise-training.gradle.com/s/rzht6qise5ujg
 
 [NOTE.speaker]
 The first data point: get the speed of individual builds with free build scans. scans.gradle.com or --scan for gradle.
+
+=== Getting Started with Build Scans
+
+=== Gradle
+
+[source,text]
+----
+$> gradle build --scan
+...
+BUILD SUCCESSFUL in 5s
+143 actionable tasks: 29 executed, 76 from cache, 38 up-to-date
+
+Publishing build scan...
+https://gradle.com/s/wnftgsuyjleyi
+----
+
+=== Gradle Build Scan Plugin
+
+[source, groovy]
+----
+plugins {
+  id "com.gradle.build-scan" version "2.3"
+}
+
+buildScan {
+  server "https://gradle-enterprise.yourcompany.com"
+  publishAlways()
+}
+----
+
+=== Maven
+
+(Register the Extension in `.mvn/extensions.xml`)
+
+[source,xml]
+----
+<extensions>
+  <extension>
+    <groupId>com.gradle</groupId>
+    <artifactId>gradle-enterprise-maven-extension</artifactId>
+    <version>1.1.4</version>
+  </extension>
+</extensions>
+----
+
+=== Maven
+
+[source,text]
+----
+$> mvn clean verify
+...
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  5.262 s
+[INFO] Finished at: 2019-04-23T09:55:36+02:00
+[INFO] ------------------------------------------------------------------------
+[INFO] 13 goals, 8 executed, 5 from cache, saving at least 16s
+[INFO]
+[INFO] Publishing build scan...
+[INFO] https://gradle.com/s/ypgljbvelzxzs
+[INFO]
+----
+
+=== Maven
+
+«project»/.mvn/gradle-enterprise.xml
+
+[source,xml]
+----
+<gradleEnterprise>
+  <server>
+    <url>https://gradle-enterprise.yourcompany.com</url>
+  </server>
+  <buildScan>
+    <publish>ALWAYS</publish>
+  </buildScan>
+</gradleEnterprise>
+----
+
+=== Build Scans – Demo
+
+link:https://enterprise-training.gradle.com/s/rzht6qise5ujg[]
+
+[NOTE.speaker]
+--
+* Navigate to summary, look for debugging features like console and tests.
+* Show scan list
+* Build categorization via Tags
+--
 
 [%conceal]
 === performance
@@ -143,7 +236,7 @@ image::trends-dashboard.png[width=1920, height=auto]
 
 * More efficient use of resources
 * Don't rebuild what hasn't changed
-* Fail fast
+* Run builds efficiently
 * Fix failures faster
 
 [NOTE.speaker]
@@ -155,7 +248,7 @@ tests especially, but also dependency conflicts, and other parts of the build.
 
 * **More efficient use of resources**
 * Don't rebuild what hasn't changed
-* Fail fast
+* Run builds efficiently
 * Fix failures faster
 
 === Resource usage
@@ -180,21 +273,31 @@ a| image::switches_maven.png[height=auto]
 .<| Maven
 |===
 
+=== Infrastructure
+
+[cols="2*^.<"]
+|===
+a| image::infra-gradle.png[width=auto, height=auto]
+a| image::infra-maven.png[width=auto, height=auto]
+
+.<| Gradle
+.<| Maven
+|===
+
 === Resources
 
-Gradle Performance Guide
+* link:https://guides.gradle.org/performance[Gradle Performance Guide]
 
-link:https://guides.gradle.org/performance[https://guides.gradle.org/performance]
+* link:https://jrebel.com/rebellabs/your-maven-build-is-slow-speed-it-up/[Zeroturnaround Maven Performance Guide]
 
 [NOTE.speaker]
 including more advice like performance tuning the JVM settings.
-Is there an equivalent for Maven?
 
 == How do we get faster?
 
 * More efficient use of resources
 * **Don't rebuild what hasn't changed**
-* Fail fast
+* Run builds efficiently
 * Fix failures faster
 
 === Incremental Builds
@@ -207,6 +310,7 @@ link:https://blog.gradle.org/introducing-incremental-build-support[https://blog.
 built-in for Gradle; only in the GE extension for Maven
 UP-TO-DATE checking is one example
 results in more efficient compilation
+caching is a property like we just talked about
 
 [%notitle]
 === Maven vs. Gradle
@@ -231,7 +335,7 @@ link:https://docs.gradle.org/current/userguide/build_cache.html#sec:task_output_
 [NOTE.speaker]
 inputs can also include the task type and its classpath, names of output properties, etc.
 
-=== Build Cache for Gradle
+=== Build Cache for Gradle (single run)
 
 [%step]
 [source,text]
@@ -246,6 +350,10 @@ $> gradle --build-cache assemble
 BUILD SUCCESSFUL
 ----
 
+=== Build Cache for Gradle (all)
+
+Set `org.gradle.caching=true` in gradle.properties
+
 === Build Cache for Gradle
 
 * By default in Java, Groovy, Scala, C++ und Swift
@@ -255,11 +363,20 @@ link:https://docs.gradle.org/current/userguide/build_cache.html#sec:task_output_
 
 === Build Cache for Maven
 
-* Part of the Gradle Enterprise Maven Extension
+* Requires the Gradle Enterprise Maven Extension
+* Only supported for clean builds
 * Initial Release: March 2019
 * Supported Plugins: Java Compiler, Surefire/Failsafe, Javadoc, JAXB, Checkstyle, and more!
 
 https://docs.gradle.com/enterprise/maven-extension/#cacheable_plugins_and_goals
+
+=== Build Cache – Demo
+
+=== Storing
+image::cache-store.png[width=750, height=auto]
+
+=== Cache Hit
+image::cache-hit.png[width=750, height=auto]
 
 [transition=none]
 === Local and Remote Cache
@@ -315,22 +432,135 @@ image::caching-typical-scenario-09.svg[]
 [.stretch.plain]
 image::caching-typical-scenario-10.svg[]
 
-=== Build Cache – Demo
+=== Remote cache configuration (Gradle)
 
-=== Storing
-image::cache-store.png[width=750, height=auto]
+_settings.gradle_
+[source,groovy]
+----
+buildCache {
+    remote(HttpBuildCache) {
+        url = 'https://gradle-enterprise.yourcompany.com/cache/'
+    }
+}
+----
 
-=== Cache Hit
-image::cache-hit.png[width=750, height=auto]
+=== Conditional cache configuration (Gradle)
+
+_settings.gradle_
+[source,groovy]
+----
+def ciServer = System.getenv().containsKey('CI')
+
+buildCache {
+    local {
+        enabled = !ciServer
+    }
+    remote(HttpBuildCache) {
+        url = 'https://gradle-enterprise.yourcompany.com/cache/'
+        push = ciServer
+    }
+}
+----
+
+=== Remote cache configuration (Maven)
+
+[source,xml]
+<gradleEnterprise>
+  <server>
+    <url>https://gradle-enterprise.yourcompany.com</url>
+  </server>
+</gradleEnterprise>
+
+Per project: _«project»/.mvn/gradle-enterprise.xml_ +
+Per user: _~/.m2/gradle-enterprise.xml_.
+
+=== Conditional cache configuration (Maven)
+
+[source,xml]
+<gradleEnterprise>
+  <server>
+    <url>https://gradle-enterprise.yourcompany.com</url>
+  </server>
+  <buildCache>
+    <remote>
+      <storeEnabled>false</enabled>
+    </remote>
+  </buildCache>
+</gradleEnterprise>
+
+`./mvnw clean assemble -Dgradle.cache.remote.storeEnabled=true`
+
+[%conceal]
+=== Enterprise Server setup
+
+image::what-is.png[width=auto, height=auto]
+
+=== Cache Administration
+
+image::cache-admin.png[width=auto, height=550]
+
+=== Cache Administration
+
+image::cache-admin-nodes.png[width=auto, height=550]
+
+[.dark.background]
+== Pause
+
+[NOTE.speaker]
+and when we return, we'll start with failing fast
+
+image::subsection.png[background, size=cover]
 
 == How do we get faster?
 
 * More efficient use of resources
 * Don't rebuild what hasn't changed
-* **Fail fast**
+* **Run builds efficiently**
 * Fix failures faster
 
-=== Test failures
+=== Learn the build tools
+
+[NOTE.speaker]
+something I'm still working on myself.
+
+[%conceal]
+=== Maven lifecycle
+
+image::maven-lifecycle.jpg[width=auto, height=auto]
+
+=== Gradle
+
+image::gradle-task-graph.png[width=auto, height=450]
+
+link:https://docs.gradle.org/current/userguide/what_is_gradle.html[]
+
+=== Behavioral changes
+
+[%conceal]
+=== Behavioral changes
+
+[%step]
+* Gradle users should stop running clean!
+* Yes, even for CI.
+
+[NOTE.speaker]
+Maven users can and _should_ use clean with caching.
+This is especially true for CI where you destroy any speed advantages creating ephemeral builds.
+
+[%conceal]
+=== Behavioral changes
+
+Only run the tasks you need.
+
+[%conceal]
+=== Behavioral changes
+
+Use dependency caching.
+
+[NOTE.speaker]
+native to maven (local). For Gradle, don't refresh dependencies when you don't need to.
+
+=== Fail tests as soon as possible
 
 [source,groovy]
 test {
@@ -342,10 +572,11 @@ gradle integTest --fail-fast
 
 [NOTE.speaker]
 NOT the same as maven fail fast which is Gradle's default behavior.
+Gradle reruns failing tests first the next time.
 
 === Dependency Conflicts
 
-
+image::collaboration.png[width=auto, height=auto]
 
 === Use Gradle ;)
 
@@ -353,53 +584,124 @@ NOT the same as maven fail fast which is Gradle's default behavior.
 
 * More efficient use of resources
 * Don't rebuild what hasn't changed
-* Fail fast
+* Run builds efficiently
 * **Fix failures faster**
 
-=== Gradle
-
-[source,text]
-----
-$> gradle build --scan
-...
-BUILD SUCCESSFUL in 5s
-143 actionable tasks: 29 executed, 76 from cache, 38 up-to-date
-
-Publishing build scan...
-https://gradle.com/s/wnftgsuyjleyi
-----
-
-=== Maven
-
-(Register the Extension in `.mvn/extensions.xml`)
-
-[source,text]
-----
-$> mvn clean verify
-...
-[INFO] ------------------------------------------------------------------------
-[INFO] BUILD SUCCESS
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time:  5.262 s
-[INFO] Finished at: 2019-04-23T09:55:36+02:00
-[INFO] ------------------------------------------------------------------------
-[INFO] 13 goals, 8 executed, 5 from cache, saving at least 16s
-[INFO]
-[INFO] Publishing build scan...
-[INFO] https://gradle.com/s/ypgljbvelzxzs
-[INFO]
-----
-
-=== Build Scans – Demo
+=== Extending build scans
 
 [NOTE.speaker]
---
-* Navigate to summary, look for debugging features like console and tests.
-* Show scan list
-* Build categorization via Tags
---
+demo tags for local/ci on grdev
 
-== Build Comparison
+=== Extending build scans (Gradle)
+
+_build.gradle_
+[source,groovy]
+----
+def ciServer = System.getenv().containsKey('CI')
+
+buildScan {
+  tag(ciServer ? "CI" : "local")
+  value("buildNumber", 2)
+  link("CI Build", "http://ci-server/build/2")
+}
+----
+
+Or via system properties: +
+`./gradlew build -Dscan.tag.CI`
+
+=== Extending build scans (Maven)
+
+_pom.xml_
+[source,xml]
+----
+<plugins>
+  <plugin>
+    <groupId>org.gradle</groupId>
+    <artifactId>gradle-enterprise-maven-extension</artifactId>
+    <version>1.1.4</version>
+    <configuration>
+      <gradleEnterprise>
+        <buildScan>
+          <tags><tag>CI</tag></tags>
+          <links><link><name>CI Build<name><url>http://ci-server/build/2</url></link></links>
+          <values><value><name>buildNumber<name><value>2</value></value></values>
+        </buildScan>
+      </gradleEnterprise>
+    </configuration>
+  <plugin>
+</plugins>
+----
+
+Or via system properties: +
+`./mvnw package -Dscan.tag.CI`
+
+=== Extending build scans (Maven)
+
+Complex logic can be implemented as a Groovy script
+
+[source,xml]
+----
+<plugin>
+  <groupId>org.codehaus.gmavenplus</groupId>
+  <artifactId>gmavenplus-plugin</artifactId>
+  <version>1.6.2</version>
+  <executions>
+    <execution>
+      <id>build-scan-user-data</id>
+      <phase>validate</phase>
+      <goals>
+        <goal>execute</goal>
+      </goals>
+    </execution>
+  </executions>
+  ...
+----
+
+=== Extending build scans (Maven)
+
+[source,xml]
+----
+  <configuration>
+    <scripts>
+      <script>file:///${project.basedir}/buildScanUserData.groovy</script>
+    </scripts>
+  </configuration>
+  <dependencies>
+    <dependency>
+      <groupId>org.codehaus.groovy</groupId>
+      <artifactId>groovy-all</artifactId>
+      <version>2.5.6</version>
+      <type>pom</type>
+      <scope>runtime</scope>
+    </dependency>
+  </dependencies>
+</plugin>
+----
+
+=== Extending build scans (Maven)
+
+_buildScanUserData.groovy_
+[source,groovy]
+----
+def buildScan =
+  session.lookup("com.gradle.maven.extension.api.scan.BuildScanApi")
+
+def ci = System.getenv('CI')
+if (ci) {
+  buildScan.tag('CI')
+} else {
+  buildScan.tag('Local')
+}
+----
+
+[NOTE.speaker]
+not just for ci vs local, but with logic, we can also tag log running builds, specific types of failures and more.
+
+=== Collaboration through Deep Linking
+
+image::collaboration.png[width=auto, height=auto]
+
+=== Build Comparison
 
 [%conceal]
 === Scan list
@@ -409,7 +711,80 @@ image::scan-list.png[width=1920, height=auto]
 
 image::task-inputs-comparison.png[width=1920, height=auto]
 
-== Do your own build data analysis
+[NOTE.speaker]
+countless uses including debugging failures vs passing builds, and debugging cache misses.
+
+== Input volatility
+
+* Inputs need to be stable and portable
+* Common problems:
+** Timestamps
+** Absolute file paths
+** Non-deterministic ordering
+
+=== Volatile inputs
+
+image::volatile-inputs.png[width=auto, height=auto]
+
+=== Runtime classpath normalization
+Inconsequential & volatile files on runtime classpaths can be ignored.
+
+More cache hits and faster builds.
+
+=== Runtime classpath normalization
+
+Inconsequential & volatile files on runtime classpaths can be ignored.
+
+More cache hits and faster builds.
+
+=== Runtime classpath normalization (Gradle)
+
+_build.gradle_
+[source,groovy]
+----
+normalization {
+    runtimeClasspath {
+        ignore 'build-info.properties'
+    }
+}
+----
+
+=== Runtime classpath normalization (Maven)
+
+_pom.xml_
+[source,xml]
+----
+<plugin>
+  <groupId>com.gradle</groupId>
+  <artifactId>gradle-enterprise-maven-extension</artifactId>
+  <version>1.1.4</version>
+  <configuration>
+    <gradleEnterprise>
+      <normalization>
+        <runtimeClassPath>
+          <ignoredFiles>
+            <ignoredFile>META-INF/build.properties</ignoredFile>
+          </ignoredFiles>
+        </runtimeClassPath>
+      </normalization>
+    </gradleEnterprise>
+  </configuration>
+</plugin>
+----
+
+== Gradle is a Data Platform
+
+image::gradle-data-platform.png[width=auto, height=auto]
+
+=== Performance Dashboard
+
+image::performance-dashboard.png[width=auto, height=auto]
+
+=== Trends Dashboard
+
+image::trends-dashboard.png[width=auto, height=auto]
+
+=== Do your own build data analysis
 
 Gradle Enterprise exposes build scan data for real time consumption via API
 
@@ -434,12 +809,39 @@ image::build-analysis-data-pipeline.png[width=100%, height=auto]
 [%notitle]
 === Dashboard
 
+image::build-dashboard.png[height=auto]
+
+[%notitle]
+=== Dashboard
+
 image::test-analytics.png[height=auto]
 
 [NOTE.speaker]
 --
 For detecting and solving flaky tests.
 --
+
+=== Roadmap
+
+* Test acceleration via remote test execution
+* More build analytics, including flakey tests insights
+* More Gradle dependency insights, feature parity with command line
+* Deeper Maven insights, console log, tests, dependencies, comparisons
+
+=== Trial
+
+Request a free 30-day trial at link:https://gradle.com/enterprise/trial/[https://gradle.com/enterprise/trial].
+
+== Resources
+
+* *Free Trainings* at https://gradle.com/training/[gradle.com/training]:
+  - Introduction to Gradle
+  - Build Cache Deep Dive
+  - Maven + Gradle Enterprise
+* *Gradle Build Tool Docs:* https://docs.gradle.org[]
+* *Gradle Enterprise Docs & Tutorials:* https://docs.gradle.com[]
+* *Free build scans for Maven & Gradle:* https://scans.gradle.com
+* *Gradle Newsletter:* https://newsletter.gradle.com
 
 == Conclusion
 
@@ -461,13 +863,3 @@ image::thank-you.png[width=35%, height=auto]
 icon:envelope[] jenn@gradle.com
 icon:twitter[] link:https://twitter.com/codeJENNerator[codeJENNerator] +
 icon:xing[] link:https://www.xing.com/profile/Jennifer_Strater[Jennifer Strater]
-
-== Resources
-
-* *Free Trainings* at https://gradle.com/training/[gradle.com/training]:
-  - Introduction to Gradle
-  - Build Cache Deep Dive
-  - Maven + Gradle Enterprise
-* *Gradle Build Tool:* https://gradle.org[]
-* *Gradle Enterprise:* https://gradle.com[]
-* *Gradle Newsletter:* https://newsletter.gradle.com
