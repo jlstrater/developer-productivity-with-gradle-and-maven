@@ -372,6 +372,10 @@ https://docs.gradle.com/enterprise/maven-extension/#cacheable_plugins_and_goals
 
 === Build Cache – Demo
 
+link:https://jlstrater.github.io/developer-productivity-with-gradle-and-maven[These slides as a Gradle project]
+
+(with a detour into how Gradle esp. Kotlin DSL works)
+
 === Storing
 image::cache-store.png[width=750, height=auto]
 
@@ -820,13 +824,6 @@ image::test-analytics.png[height=auto]
 --
 For detecting and solving flaky tests.
 --
-
-=== Roadmap
-
-* Test acceleration via remote test execution
-* More build analytics, including flakey tests insights
-* More Gradle dependency insights, feature parity with command line
-* Deeper Maven insights, console log, tests, dependencies, comparisons
 
 === Trial
 
